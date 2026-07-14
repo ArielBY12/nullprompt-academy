@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 02 · Understanding LLMs — Nullprompt Academy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Base vs instruct vs chat models, open vs closed weights, the prompt-role hierarchy and the guardrails you'll test against.">
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="topbar" data-chrome data-base="../" data-active="modules"></header>
+
+  <section class="module-hero">
+    <div class="mh-num">MODULE 02</div>
+    <h1 data-i18n="m2.title"></h1>
+    <p data-i18n="m2.sub"></p>
+  </section>
+
+  <section class="section prose">
+    <p class="crumbs"><a href="../modules.html" data-i18n="nav.modules"></a> / <span data-i18n="m2.title"></span></p>
+
+    <div data-i18n-html="m2.intro"></div>
+
+    <h3 data-i18n="m2.h_types"></h3>
+    <div data-i18n-html="m2.types"></div>
+
+    <h3 data-i18n="m2.h_weights"></h3>
+    <div data-i18n-html="m2.weights"></div>
+    <div class="callout impact"><div class="ct" data-i18n="co.impact"></div><p data-i18n-html="m2.weights_impact"></p></div>
+
+    <h3 data-i18n="m2.h_hierarchy"></h3>
+    <div data-i18n-html="m2.hierarchy"></div>
+
+    <!-- prompt hierarchy viz -->
+    <div class="viz">
+      <svg viewBox="0 0 620 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Prompt role hierarchy: system over developer over user, with attacker input entering at the user layer">
+        <rect x="0" y="0" width="620" height="240" fill="#fff"/>
+        <rect x="150" y="20"  width="320" height="46" rx="8" fill="#4a0d0d"/><text x="310" y="48" fill="#f0d9a8" font-size="14" text-anchor="middle" font-weight="700">SYSTEM prompt · highest authority</text>
+        <rect x="120" y="80"  width="380" height="46" rx="8" fill="#8f1a1a"/><text x="310" y="108" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">DEVELOPER prompt · app instructions</text>
+        <rect x="90"  y="140" width="440" height="46" rx="8" fill="#b32424"/><text x="310" y="168" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">USER message · lowest authority</text>
+        <path d="M600 163 L540 163" stroke="#1a1210" stroke-width="2" marker-end="url(#a2)"/>
+        <text x="560" y="150" font-size="11" fill="#8f1a1a" text-anchor="middle">attacker</text>
+        <text x="560" y="200" font-size="11" fill="#8f1a1a" text-anchor="middle">injects here</text>
+        <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1a1210"/></marker></defs>
+        <text x="310" y="215" font-size="11.5" fill="#6b5f5c" text-anchor="middle">The hierarchy is a convention the model was trained to respect — not a hard boundary.</text>
+      </svg>
+      <div class="cap" data-i18n="m2.hierarchy_cap"></div>
+    </div>
+
+    <h3 data-i18n="m2.h_guardrails"></h3>
+    <div data-i18n-html="m2.guardrails"></div>
+    <div class="callout attack"><div class="ct" data-i18n="co.attack"></div><p data-i18n-html="m2.guardrails_attack"></p></div>
+
+    <!-- LAB -->
+    <h3 data-i18n="m2.h_lab"></h3>
+    <p data-i18n="m2.lab_intro"></p>
+    <div id="lab"></div>
+
+    <div class="callout defense"><div class="ct" data-i18n="co.defense"></div><p data-i18n-html="m2.defense"></p></div>
+
+    <!-- quiz -->
+    <div id="quiz"></div>
+
+    <div class="sources">
+      <h4 data-i18n="ui.sources"></h4>
+      <ul>
+        <li>Ouyang et al., InstructGPT / RLHF (2022) — arXiv:2203.02155</li>
+        <li>Wei et al., <em>"Jailbroken: How Does LLM Safety Training Fail?"</em> (2023) — arXiv:2307.02483</li>
+        <li>OpenAI, <em>"The Instruction Hierarchy"</em> (2024) — arXiv:2404.13208</li>
+        <li>OWASP Top 10 for LLM Applications (2025), LLM01 Prompt Injection — genai.owasp.org</li>
+      </ul>
+    </div>
+
+    <div class="mark-complete" data-mark-complete="2"></div>
+    <div class="pager" data-pager data-current="2" data-base="../"></div>
+  </section>
+
+  <footer class="footer"><p data-i18n="footer.tag"></p></footer>
+</div>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/modules-data.js"></script>
+<script src="../js/labs.js"></script>
+<script>
+I18N.register({
+  "co.impact":{en:"Real-world impact", he:"השפעה בעולם האמיתי"},
+  "co.attack":{en:"Attacker's view", he:"נקודת מבט התוקף"},
+  "co.defense":{en:"Defense", he:"הגנה"},
+  "m2.title":{en:"Understanding Large Language Models", he:"היכרות עם מודלי שפה גדולים"},
+  "m2.sub":{en:"The same underlying model behaves very differently depending on how it was tuned, deployed, and prompted. Those differences are your attack surface.",
+            he:"אותו מודל בסיסי מתנהג שונה מאוד תלוי באיך כוונן, נפרס, וקיבל prompt. ההבדלים האלה הם משטח התקיפה שלך."},
+  "m2.intro":{en:"<p>In Module 01 you saw the mechanism. Now we look at the <strong>products</strong> built on it — because \"an LLM\" is not one thing. A raw base model, an instruction-tuned model, and a hosted chat assistant with guardrails are three very different targets, even if they share weights. Knowing which you're facing tells you which attacks are even possible.</p>",
+             he:"<p>במודול 01 ראית את המנגנון. עכשיו נסתכל על ה<strong>מוצרים</strong> הבנויים עליו — כי \"LLM\" אינו דבר אחד. מודל בסיס גולמי, מודל מכוון-הוראות, ועוזר צ'אט מתארח עם guardrails הם שלושה יעדים שונים מאוד, גם אם הם חולקים משקולות. לדעת מול מה אתה עומד מגלה אילו תקיפות בכלל אפשריות.</p>"},
+  "m2.h_types":{en:"1 · Base vs. instruct vs. chat", he:"1 · Base מול instruct מול chat"},
+  "m2.types":{en:"<p><strong>Base models</strong> only continue text — give them \"The capital of France is\" and they complete it. They have no notion of \"assistant\" and few refusals; they're the least aligned and often the most willing to produce anything. <strong>Instruct models</strong> are fine-tuned to follow commands (\"Summarize this…\"). <strong>Chat models</strong> add a multi-turn role format (system/user/assistant) and are usually wrapped in the most safety tuning.</p><p>As an attacker: if you can reach a <em>base</em> or lightly-tuned model (e.g., a self-hosted open model behind an app), guardrails may be nearly absent. If you face a hardened chat model, you'll need injection and jailbreak techniques instead.</p>",
+              he:"<p><strong>מודלי בסיס</strong> רק ממשיכים טקסט — תן להם \"בירת צרפת היא\" והם ישלימו. אין להם מושג של \"עוזר\" ומעט סירובים; הם הכי פחות מיושרים ולעיתים הכי מוכנים לייצר כל דבר. <strong>מודלי instruct</strong> מכווננים לעקוב אחר פקודות (\"סכם את זה…\"). <strong>מודלי chat</strong> מוסיפים פורמט תפקידים רב-תורי (system/user/assistant) ולרוב עטופים בהכי הרבה כוונון בטיחות.</p><p>כתוקף: אם אתה יכול להגיע למודל <em>בסיס</em> או מכוונן-קלות (למשל מודל פתוח מתארח-עצמית מאחורי יישום), guardrails עשויים להיות כמעט נעדרים. מול מודל chat מוקשח, תזדקק לטכניקות הזרקה ו-jailbreak.</p>"},
+  "m2.h_weights":{en:"2 · Closed vs. open-weight models", he:"2 · מודלים סגורים מול open-weight"},
+  "m2.weights":{en:"<p><strong>Closed models</strong> (accessed only via API) hide their weights; you attack them as a black box through the interface. <strong>Open-weight models</strong> can be downloaded and run locally — which means an attacker can inspect activations, remove safety layers via further fine-tuning, run unlimited offline attack iterations, and craft <em>transferable</em> adversarial prompts that often also work against closed models.</p>",
+                he:"<p><strong>מודלים סגורים</strong> (נגישים רק דרך API) מסתירים את המשקולות; תוקף אותם כקופסה שחורה דרך הממשק. <strong>מודלים open-weight</strong> ניתנים להורדה והרצה מקומית — כלומר תוקף יכול לבחון אקטיבציות, להסיר שכבות בטיחות דרך fine-tuning נוסף, להריץ אינסוף איטרציות תקיפה במצב לא-מקוון, ולבנות prompts יריבים <em>ניתנים-להעברה</em> שלעיתים עובדים גם נגד מודלים סגורים.</p>"},
+  "m2.weights_impact":{en:"When an app self-hosts an open model, assume the attacker can practice offline against an identical copy with safety stripped — then replay the winning payload against production. Your defense can't rely on the model's built-in refusals alone.",
+                       he:"כשיישום מארח-עצמית מודל פתוח, הנח שהתוקף יכול להתאמן לא-מקוון נגד עותק זהה עם בטיחות מוסרת — ואז לשחזר את ה-payload המנצח נגד הפרודקשן. ההגנה שלך לא יכולה להסתמך רק על סירובי המודל המובנים."},
+  "m2.h_hierarchy":{en:"3 · The prompt-role hierarchy", he:"3 · היררכיית תפקידי ה-prompt"},
+  "m2.hierarchy":{en:"<p>Chat models are trained to treat messages with different <strong>roles</strong> at different authority levels: the <code class='inline'>system</code> prompt (developer-set, highest), sometimes a <code class='inline'>developer</code> role, then the <code class='inline'>user</code> message (lowest), and <code class='inline'>tool</code>/<code class='inline'>assistant</code> outputs. Providers formalize this as an <em>instruction hierarchy</em> so higher-authority instructions should win conflicts.</p><p>But — as Module 01 established — the model attends to <em>content</em>, and role labels are just tokens the model learned to weight. When untrusted data (a user message, a web page, a file) contains text that <em>looks like</em> a higher-authority instruction, the model may obey it. That confusion is prompt injection.</p>",
+                  he:"<p>מודלי chat מאומנים להתייחס להודעות עם <strong>תפקידים</strong> שונים ברמות סמכות שונות: ה-<code class='inline'>system</code> prompt (מוגדר-מפתח, הגבוה ביותר), לעיתים תפקיד <code class='inline'>developer</code>, אז הודעת ה-<code class='inline'>user</code> (הנמוך ביותר), ופלטי <code class='inline'>tool</code>/<code class='inline'>assistant</code>. ספקים מפרמלים זאת כ<em>היררכיית הוראות</em> כך שהוראות בעלות סמכות גבוהה יותר אמורות לנצח בקונפליקטים.</p><p>אבל — כפי שמודול 01 קבע — המודל מתייחס ל<em>תוכן</em>, ותוויות תפקיד הן רק טוקנים שהמודל למד לשקלל. כשנתונים לא-אמינים (הודעת משתמש, דף אינטרנט, קובץ) מכילים טקסט ש<em>נראה כמו</em> הוראה בעלת סמכות גבוהה, המודל עשוי לציית לו. הבלבול הזה הוא prompt injection.</p>"},
+  "m2.hierarchy_cap":{en:"Authority flows top-down, but the attacker's text enters at the bottom and tries to impersonate the top.",
+                      he:"הסמכות זורמת מלמעלה למטה, אך טקסט התוקף נכנס מלמטה ומנסה להתחזות לצמרת."},
+  "m2.h_guardrails":{en:"4 · Built-in safety &amp; alignment guardrails", he:"4 · מנגנוני בטיחות ו-alignment מובנים"},
+  "m2.guardrails":{en:"<p>Guardrails come in two flavors. <strong>Intrinsic</strong> guardrails are baked into the model by RLHF/safety tuning — the trained tendency to refuse. <strong>Extrinsic</strong> guardrails are separate components around the model: input/output classifiers, keyword filters, moderation APIs, and system-prompt rules. Real products layer both.</p><p>Every layer is probabilistic or pattern-based, and therefore bypassable. Intrinsic refusals bend under reframing (Module 01). Extrinsic filters miss obfuscation, encoding, and language switches (you'll see this in Module 03 and the CTF).</p>",
+                   he:"<p>Guardrails מגיעים בשני סוגים. <strong>אינטרינזיים</strong> אפויים במודל דרך RLHF/כוונון בטיחות — הנטייה המאומנת לסרב. <strong>אקסטרינזיים</strong> הם רכיבים נפרדים סביב המודל: מסווגי קלט/פלט, סינון מילות-מפתח, מודרציה, וכללי system-prompt. מוצרים אמיתיים משכבים את שניהם.</p><p>כל שכבה היא הסתברותית או מבוססת-דפוס, ולכן ניתנת לעקיפה. סירובים אינטרינזיים מתכופפים תחת מסגור מחדש (מודול 01). מסננים אקסטרינזיים מפספסים ערפול, קידוד, והחלפת שפה (תראה זאת במודול 03 וב-CTF).</p>"},
+  "m2.guardrails_attack":{en:"Treat guardrails as a stack of imperfect filters, not a wall. Your job in a pentest is to find the seam: a phrasing the intrinsic model will comply with AND the extrinsic filters won't flag. The lab below is the intrinsic half of that.",
+                          he:"התייחס ל-guardrails כמחסנית מסננים לא-מושלמים, לא כחומה. תפקידך בבדיקת חדירה הוא למצוא את התפר: ניסוח שהמודל האינטרינזי יציית לו וגם המסננים האקסטרינזיים לא יסמנו. המעבדה למטה היא החצי האינטרינזי של זה."},
+  "m2.h_lab":{en:"Lab · Jailbreak a shallow guardrail", he:"מעבדה · עקיפת guardrail שטחי"},
+  "m2.lab_intro":{en:"HelpBot below refuses to reveal an internal launch code when asked directly. Use a reframing technique — role-play, hypothetical, or a story — to make it comply. When it slips, it exposes a flag.",
+                  he:"HelpBot למטה מסרב לחשוף קוד שיגור פנימי כשמבקשים ישירות. השתמש בטכניקת מסגור מחדש — משחק תפקידים, היפותזה, או סיפור — כדי לגרום לו לציית. כשהוא נכשל, הוא חושף דגל."},
+  "m2.defense":{en:"Defense-in-depth: don't put real secrets in a system prompt (Module 03), add an output filter that scans for the secret's format before returning text, and log/alert on jailbreak-shaped inputs. No single control is enough.",
+                he:"הגנה לעומק: אל תשים סודות אמיתיים ב-system prompt (מודול 03), הוסף מסנן פלט שסורק את פורמט הסוד לפני החזרת טקסט, ותעד/התרע על קלטים בצורת jailbreak. אף בקרה בודדת אינה מספיקה."}
+});
+</script>
+<script src="../js/app.js"></script>
+<script>
+Lab.mount(document.getElementById("lab"), "m2-jailbreak");
+Quiz.mount(document.getElementById("quiz"), {
+  id:"m2",
+  questions:[
+    { q:{en:"You find an app running a self-hosted open-weight model. Why is that riskier for the defender?",he:"מצאת יישום שמריץ מודל open-weight מתארח-עצמית. למה זה מסוכן יותר למגן?"},
+      opts:[
+        {en:"Open models are always written in JavaScript",he:"מודלים פתוחים תמיד כתובים ב-JavaScript"},
+        {en:"An attacker can practice offline against an identical copy with safety removed, then replay the payload",he:"תוקף יכול להתאמן לא-מקוון נגד עותק זהה עם בטיחות מוסרת, ואז לשחזר את ה-payload"},
+        {en:"Open models cannot use TLS",he:"מודלים פתוחים לא יכולים להשתמש ב-TLS"},
+        {en:"They have larger context windows by law",he:"יש להם חלונות הקשר גדולים יותר לפי חוק"}],
+      correct:1,
+      why:{en:"Downloadable weights let attackers strip safety tuning and iterate unlimited offline attacks that transfer to production.",he:"משקולות להורדה מאפשרות לתוקפים להסיר כוונון בטיחות ולבצע אינסוף תקיפות לא-מקוונות שמועברות לפרודקשן."} },
+    { q:{en:"The instruction hierarchy (system > developer > user) is best described as:",he:"היררכיית ההוראות (system > developer > user) מתוארת הכי טוב כ:"},
+      opts:[
+        {en:"A hardware-enforced privilege boundary",he:"גבול הרשאות נאכף-חומרה"},
+        {en:"A trained convention the model usually—but not always—respects",he:"מוסכמה מאומנת שהמודל לרוב — אך לא תמיד — מכבד"},
+        {en:"An encryption scheme",he:"סכמת הצפנה"},
+        {en:"A network firewall rule",he:"כלל firewall רשתי"}],
+      correct:1,
+      why:{en:"Role labels are tokens the model learned to weight; content that mimics higher authority can override them — that's injection.",he:"תוויות תפקיד הן טוקנים שהמודל למד לשקלל; תוכן שמחקה סמכות גבוהה יכול לדרוס אותן — זו הזרקה."} },
+    { q:{en:"Which statement about guardrails is correct?",he:"איזו טענה על guardrails נכונה?"},
+      opts:[
+        {en:"Intrinsic (trained) and extrinsic (filter) guardrails are both bypassable and should be layered",he:"guardrails אינטרינזיים (מאומנים) ואקסטרינזיים (מסננים) שניהם ניתנים לעקיפה וצריך לשכב אותם"},
+        {en:"A single moderation API fully prevents jailbreaks",he:"API מודרציה יחיד מונע jailbreaks לחלוטין"},
+        {en:"Guardrails make prompt injection impossible",he:"guardrails הופכים prompt injection לבלתי אפשרי"},
+        {en:"Only closed models can have guardrails",he:"רק מודלים סגורים יכולים להחזיק guardrails"}],
+      correct:0,
+      why:{en:"All guardrails are probabilistic or pattern-based; defense-in-depth (layering) is the realistic strategy.",he:"כל ה-guardrails הסתברותיים או מבוססי-דפוס; הגנה לעומק (שכבות) היא האסטרטגיה הריאלית."} }
+  ]
+});
+</script>
+</body>
+</html>

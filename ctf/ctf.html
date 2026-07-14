@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CTF Arena — Nullprompt Academy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Capture-the-flag challenges that combine techniques from across the AI/LLM pentesting curriculum.">
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="topbar" data-chrome data-base="../" data-active="ctf"></header>
+
+  <section class="module-hero">
+    <div class="mh-num">CTF ARENA</div>
+    <h1 data-i18n="ctf.title"></h1>
+    <p data-i18n="ctf.sub"></p>
+  </section>
+
+  <section class="section">
+    <div class="scoreboard">
+      <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.85" data-i18n="ctf.solvedLabel"></div>
+      <div class="score"><span data-ctf-solved>0</span> / <span data-ctf-total>4</span></div>
+      <div style="font-size:13px;opacity:.85" data-i18n="ctf.points"></div>
+    </div>
+
+    <p class="lead" style="margin-top:24px" data-i18n="ctf.intro"></p>
+
+    <!-- Challenge 1 -->
+    <h3 style="margin-top:26px;color:var(--red-900)"><span data-i18n="ctf.c1title"></span> <span style="font-size:13px;color:var(--gold);font-weight:800">· 100 <span data-i18n="ui.points"></span></span></h3>
+    <p class="lab-desc" data-i18n="ctf.c1desc"></p>
+    <div id="lab1"></div>
+
+    <!-- Challenge 2 -->
+    <h3 style="margin-top:34px;color:var(--red-900)"><span data-i18n="ctf.c2title"></span> <span style="font-size:13px;color:var(--gold);font-weight:800">· 150 <span data-i18n="ui.points"></span></span></h3>
+    <p class="lab-desc" data-i18n="ctf.c2desc"></p>
+    <div id="lab2"></div>
+
+    <!-- Challenge 3 -->
+    <h3 style="margin-top:34px;color:var(--red-900)"><span data-i18n="ctf.c3title"></span> <span style="font-size:13px;color:var(--gold);font-weight:800">· 200 <span data-i18n="ui.points"></span></span></h3>
+    <p class="lab-desc" data-i18n="ctf.c3desc"></p>
+    <div id="lab3"></div>
+
+    <!-- Challenge 4 -->
+    <h3 style="margin-top:34px;color:var(--red-900)"><span data-i18n="ctf.c4title"></span> <span style="font-size:13px;color:var(--gold);font-weight:800">· 250 <span data-i18n="ui.points"></span></span></h3>
+    <p class="lab-desc" data-i18n="ctf.c4desc"></p>
+    <div id="lab4"></div>
+
+    <div class="disclaimer" style="margin-top:26px" data-i18n="disclaimer"></div>
+    <button type="button" class="btn ghost" data-reset style="font-size:12px;margin-top:6px" data-i18n="ui.reset"></button>
+  </section>
+
+  <footer class="footer"><p data-i18n="footer.tag"></p></footer>
+</div>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/modules-data.js"></script>
+<script src="../js/labs.js"></script>
+<script>
+I18N.register({
+  "ctf.title":{en:"CTF Arena", he:"זירת CTF"},
+  "ctf.sub":{en:"Cross-module challenges. Each combines techniques from the curriculum — capture the NP{...} flag and submit it to score.",
+             he:"אתגרים חוצי-מודולים. כל אחד משלב טכניקות מהתוכנית — לכוד את דגל ה-NP{...} ושלח אותו לצבירת ניקוד."},
+  "ctf.solvedLabel":{en:"Challenges solved", he:"אתגרים שנפתרו"},
+  "ctf.points":{en:"Capture all four to complete the arena", he:"לכוד את כל הארבעה כדי להשלים את הזירה"},
+  "ctf.intro":{en:"Four unguided, cross-module challenges of rising difficulty — from a single bypass to a full three-step engagement. No step-by-step hints: apply what you learned across Modules 02–08. Your solved count is saved locally.",
+               he:"ארבעה אתגרים חוצי-מודולים ללא הדרכה, בקושי עולה — מעקיפה בודדת ועד בדיקה מלאה בת שלושה שלבים. בלי רמזים צעד-אחר-צעד: יישם את מה שלמדת במודולים 02–08. מספר הפתורים נשמר מקומית."},
+  "ctf.c1title":{en:"Challenge 1 · Break the Vault Bot", he:"אתגר 1 · פרוץ את בוט הכספת"},
+  "ctf.c1desc":{en:"VaultBot blocklists obvious phrases (\"system prompt\", \"the text above\"). Bypass its keyword filter with a format-shift — encoding or translation — to exfiltrate the stored secret.",
+                he:"VaultBot חוסם ביטויים ברורים (\"system prompt\", \"the text above\"). עקוף את סינון מילות-המפתח בשינוי-פורמט — קידוד או תרגום — כדי לחלץ את הסוד השמור."},
+  "ctf.c2title":{en:"Challenge 2 · Indirect Injection", he:"אתגר 2 · הזרקה עקיפה"},
+  "ctf.c2desc":{en:"DocBot summarizes an untrusted retrieved document but doesn't separate data from instructions. Poison the document so DocBot obeys you instead of the user, and reveal the debug flag.",
+                he:"DocBot מסכם מסמך לא-אמין שאוחזר אך לא מפריד בין נתונים להוראות. הרעל את המסמך כך ש-DocBot יציית לך במקום למשתמש, וחשוף את דגל הדיבאג."},
+  "ctf.c3title":{en:"Challenge 3 · Abuse the Ops Agent", he:"אתגר 3 · נצל את סוכן ה-Ops"},
+  "ctf.c3desc":{en:"OpsBot has a privileged, admin-only rotate_keys() tool — but there's no real admin check outside the model. Use a role-confusion injection to convince it you're an authenticated admin and make it run the tool (excessive agency, LLM06).",
+                he:"ל-OpsBot יש כלי rotate_keys() מורשה לאדמין בלבד — אך אין בדיקת אדמין אמיתית מחוץ למודל. השתמש בהזרקת בלבול-תפקיד כדי לשכנע אותו שאתה אדמין מאומת ולגרום לו להריץ את הכלי (excessive agency, LLM06)."},
+  "ctf.c4title":{en:"Challenge 4 · Full Engagement", he:"אתגר 4 · בדיקה מלאה"},
+  "ctf.c4desc":{en:"The finale. AdminBot guards a data-export command that needs a confirmation code you don't have. Chain three steps end to end — recon the command, extract the code from a protected config, then weaponize — using techniques from Modules 03, 07 and 08.",
+                he:"הגמר. AdminBot שומר על פקודת ייצוא-נתונים שדורשת קוד אישור שאין לך. שרשר שלושה שלבים מקצה-לקצה — recon לפקודה, חילוץ הקוד מ-config מוגן, ואז נישול — בטכניקות ממודולים 03, 07 ו-08."}
+});
+</script>
+<script src="../js/app.js"></script>
+<script>
+Lab.mount(document.getElementById("lab1"), "ctf-sysleak");
+Lab.mount(document.getElementById("lab2"), "ctf-indirect");
+Lab.mount(document.getElementById("lab3"), "ctf-agency");
+Lab.mount(document.getElementById("lab4"), "ctf-fullchain");
+
+function updateScore(){
+  var flags = ["NP{d3limiter_1nj3ction_win}","NP{indir3ct_inj3ction_rag}","NP{3xc3ss_ag3ncy_t00l_ab7se}","NP{full_ch4in_3ngag3ment}"];
+  var solved = flags.filter(function(f){return Progress.isFlagCaptured(f);}).length;
+  document.querySelector("[data-ctf-solved]").textContent = solved;
+}
+updateScore();
+document.addEventListener("np:flag", updateScore);
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Curriculum &amp; Progress — Nullprompt Academy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="All 8 modules of the Nullprompt Academy AI/LLM pentesting curriculum, with your saved progress.">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar" data-chrome data-base="" data-active="modules"></header>
+
+  <section class="section">
+    <div class="eyebrow" data-i18n="nav.curriculum"></div>
+    <h2 class="section-title" data-i18n="modules.title"></h2>
+    <p class="lead" data-i18n="modules.lead"></p>
+
+    <div style="margin:22px 0;max-width:520px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700">
+        <span data-i18n="modules.progressLabel"></span>
+        <span data-progress-label>0%</span>
+      </div>
+      <div class="progress-wrap"><div class="progress-bar" data-progress-bar></div></div>
+      <button type="button" class="btn ghost" data-reset style="margin-top:8px;font-size:12px" data-i18n="ui.reset"></button>
+    </div>
+
+    <div class="module-grid" data-module-grid data-base="" data-progress></div>
+  </section>
+
+  <div class="cta">
+    <h2 data-i18n="nav.ctf"></h2>
+    <p data-i18n="home.ctaText"></p>
+    <a class="cta-btn" href="ctf/ctf.html" data-i18n="nav.ctf"></a>
+  </div>
+
+  <footer class="footer">
+    <p data-i18n="footer.tag"></p>
+  </footer>
+
+</div>
+<script src="js/i18n.js"></script>
+<script src="js/modules-data.js"></script>
+<script src="js/labs.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 03 · LLM Interfaces &amp; APIs — Nullprompt Academy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Web UI, REST, SDK and CLI as attack surface: parameters, auth, rate limits, hidden endpoints and system-prompt/telemetry leakage.">
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="topbar" data-chrome data-base="../" data-active="modules"></header>
+
+  <section class="module-hero">
+    <div class="mh-num">MODULE 03</div>
+    <h1 data-i18n="m3.title"></h1>
+    <p data-i18n="m3.sub"></p>
+  </section>
+
+  <section class="section prose">
+    <p class="crumbs"><a href="../modules.html" data-i18n="nav.modules"></a> / <span data-i18n="m3.title"></span></p>
+
+    <div data-i18n-html="m3.intro"></div>
+
+    <h3 data-i18n="m3.h_surfaces"></h3>
+    <div data-i18n-html="m3.surfaces"></div>
+
+    <!-- request lifecycle viz -->
+    <div class="viz">
+      <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Request lifecycle from client through backend to model, with leak points">
+        <rect x="0" y="0" width="640" height="180" fill="#fff"/>
+        <rect x="20"  y="60" width="110" height="52" rx="8" fill="#fff" stroke="#8f1a1a" stroke-width="1.5"/><text x="75" y="90" font-size="12" text-anchor="middle">Client<tspan x="75" dy="14" font-size="10" fill="#6b5f5c">UI / SDK / CLI</tspan></text>
+        <rect x="190" y="60" width="120" height="52" rx="8" fill="#fff" stroke="#8f1a1a" stroke-width="1.5"/><text x="250" y="90" font-size="12" text-anchor="middle">Backend / API<tspan x="250" dy="14" font-size="10" fill="#6b5f5c">auth · system prompt</tspan></text>
+        <rect x="370" y="60" width="110" height="52" rx="8" fill="#fff" stroke="#8f1a1a" stroke-width="1.5"/><text x="425" y="90" font-size="12" text-anchor="middle">Orchestration<tspan x="425" dy="14" font-size="10" fill="#6b5f5c">RAG · tools</tspan></text>
+        <rect x="540" y="60" width="80" height="52" rx="8" fill="#4a0d0d"/><text x="580" y="90" font-size="12" fill="#f0d9a8" text-anchor="middle">Model</text>
+        <g stroke="#b32424" stroke-width="2" marker-end="url(#a3)">
+          <path d="M130 86 L190 86"/><path d="M310 86 L370 86"/><path d="M480 86 L540 86"/>
+        </g>
+        <defs><marker id="a3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b32424"/></marker></defs>
+        <text x="250" y="140" font-size="10.5" fill="#8f1a1a" text-anchor="middle">⚠ system-prompt / key leak</text>
+        <text x="425" y="140" font-size="10.5" fill="#8f1a1a" text-anchor="middle">⚠ hidden endpoints</text>
+        <text x="75"  y="140" font-size="10.5" fill="#8f1a1a" text-anchor="middle">⚠ params · rate limits</text>
+      </svg>
+      <div class="cap" data-i18n="m3.surfaces_cap"></div>
+    </div>
+
+    <h3 data-i18n="m3.h_params"></h3>
+    <div data-i18n-html="m3.params"></div>
+    <pre class="term"><span class="c-cmt"># A typical chat-completions request — every field is attack surface</span>
+<span class="c-prompt">$</span> curl https://api.example.com/v1/chat/completions \
+  -H <span class="c-str">"Authorization: Bearer $TOKEN"</span> \
+  -d <span class="c-str">'{
+    "model": "assistant-v2",
+    "messages": [{"role":"user","content":"hi"}],
+    "temperature": 0.7,
+    "max_tokens": 512,
+    "tools": [ ... ],
+    "debug": true          <span class="c-cmt">// undocumented? try it</span>
+  }'</span></pre>
+
+    <h3 data-i18n="m3.h_auth"></h3>
+    <div data-i18n-html="m3.auth"></div>
+    <div class="callout impact"><div class="ct" data-i18n="co.impact"></div><p data-i18n-html="m3.auth_impact"></p></div>
+
+    <h3 data-i18n="m3.h_hidden"></h3>
+    <div data-i18n-html="m3.hidden"></div>
+
+    <h3 data-i18n="m3.h_leak"></h3>
+    <div data-i18n-html="m3.leak"></div>
+    <div class="callout attack"><div class="ct" data-i18n="co.attack"></div><p data-i18n-html="m3.leak_attack"></p></div>
+
+    <!-- LAB -->
+    <h3 data-i18n="m3.h_lab"></h3>
+    <p data-i18n="m3.lab_intro"></p>
+    <div id="lab"></div>
+
+    <div class="callout defense"><div class="ct" data-i18n="co.defense"></div><p data-i18n-html="m3.defense"></p></div>
+
+    <div id="quiz"></div>
+
+    <div class="sources">
+      <h4 data-i18n="ui.sources"></h4>
+      <ul>
+        <li>OWASP Top 10 for LLM Applications (2025): LLM07 System Prompt Leakage, LLM02 Sensitive Information Disclosure — genai.owasp.org</li>
+        <li>OWASP API Security Top 10 (2023) — owasp.org/API-Security</li>
+        <li>OWASP GenAI — LLM Security &amp; Governance Checklist</li>
+        <li>MITRE ATLAS — adversarial ML tactics &amp; techniques — atlas.mitre.org</li>
+      </ul>
+    </div>
+
+    <div class="mark-complete" data-mark-complete="3"></div>
+    <div class="pager" data-pager data-current="3" data-base="../"></div>
+  </section>
+
+  <footer class="footer"><p data-i18n="footer.tag"></p></footer>
+</div>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/modules-data.js"></script>
+<script src="../js/labs.js"></script>
+<script>
+I18N.register({
+  "co.impact":{en:"Real-world impact", he:"השפעה בעולם האמיתי"},
+  "co.attack":{en:"Attacker's view", he:"נקודת מבט התוקף"},
+  "co.defense":{en:"Defense", he:"הגנה"},
+  "m3.title":{en:"LLM Interfaces & APIs", he:"ממשקים ו-APIs של LLM"},
+  "m3.sub":{en:"You rarely attack a model directly — you attack it through an interface. The Web UI, REST API, SDK and CLI each expose parameters, auth, and endpoints that become your way in.",
+            he:"נדיר שתוקפים מודל ישירות — תוקפים אותו דרך ממשק. ה-Web UI, REST API, SDK ו-CLI כל אחד חושף פרמטרים, אימות, ו-endpoints שהופכים לדרך הכניסה שלך."},
+  "m3.intro":{en:"<p>An LLM in production sits behind layers: a client (browser UI, mobile app, SDK, or CLI), a backend that injects the system prompt and enforces auth, an orchestration layer (RAG, tools, memory), and finally the model. Each hop is an interface, and <strong>each interface leaks and can be abused</strong>. This module maps that surface — the same recon you'd do at the start of any engagement (Module 08).</p>",
+             he:"<p>LLM בפרודקשן יושב מאחורי שכבות: לקוח (UI בדפדפן, אפליקציה, SDK, או CLI), backend שמזריק את ה-system prompt ואוכף אימות, שכבת אורקסטרציה (RAG, כלים, זיכרון), ולבסוף המודל. כל קפיצה היא ממשק, ו<strong>כל ממשק דולף וניתן לניצול</strong>. המודול הזה ממפה את המשטח הזה — אותו recon שתעשה בתחילת כל בדיקה (מודול 08).</p>"},
+  "m3.h_surfaces":{en:"1 · Four interfaces, four exposures", he:"1 · ארבעה ממשקים, ארבע חשיפות"},
+  "m3.surfaces":{en:"<p><strong>Web UI</strong> — inspect the network tab: it reveals the real API calls, model names, streaming endpoints, and often the request shape the frontend uses. <strong>REST API</strong> — the raw contract; fuzz parameters and headers. <strong>SDK</strong> — encodes defaults and sometimes debug flags. <strong>CLI</strong> — may expose verbose/debug modes and local config with keys. The UI is the friendliest to a user but the leakiest to a tester: everything the browser does, you can replay with <code class='inline'>curl</code>.</p>",
+                 he:"<p><strong>Web UI</strong> — בדוק את לשונית הרשת: היא חושפת את קריאות ה-API האמיתיות, שמות מודלים, endpoints של streaming, ולעיתים את מבנה הבקשה שה-frontend משתמש בו. <strong>REST API</strong> — החוזה הגולמי; fuzz לפרמטרים וכותרות. <strong>SDK</strong> — מקודד ברירות מחדל ולעיתים דגלי debug. <strong>CLI</strong> — עשוי לחשוף מצבי verbose/debug ותצורה מקומית עם מפתחות. ה-UI הכי ידידותי למשתמש אך הכי דולף לבודק: כל מה שהדפדפן עושה, אתה יכול לשחזר עם <code class='inline'>curl</code>.</p>"},
+  "m3.surfaces_cap":{en:"The request lifecycle. Every arrow crosses a trust boundary; every box is a place secrets leak.",
+                     he:"מחזור חיי הבקשה. כל חץ חוצה גבול אמון; כל תיבה היא מקום שסודות דולפים בו."},
+  "m3.h_params":{en:"2 · Parameters &amp; undocumented fields", he:"2 · פרמטרים ושדות לא-מתועדים"},
+  "m3.params":{en:"<p>Model APIs accept many parameters — <code class='inline'>temperature</code>, <code class='inline'>max_tokens</code>, <code class='inline'>system</code>, <code class='inline'>tools</code>, <code class='inline'>stop</code>, and more. Testers probe for: parameters the UI hides but the backend still honors (e.g., a raw <code class='inline'>system</code> override), <code class='inline'>debug</code>/<code class='inline'>verbose</code> flags that dump internal state, and values outside the UI's allowed range. Setting <code class='inline'>temperature</code> high can also make guardrails less consistent.</p>",
+               he:"<p>APIs של מודלים מקבלים פרמטרים רבים — <code class='inline'>temperature</code>, <code class='inline'>max_tokens</code>, <code class='inline'>system</code>, <code class='inline'>tools</code>, <code class='inline'>stop</code>, ועוד. בודקים מחפשים: פרמטרים שה-UI מסתיר אך ה-backend עדיין מכבד (למשל override גולמי של <code class='inline'>system</code>), דגלי <code class='inline'>debug</code>/<code class='inline'>verbose</code> שמשפכים מצב פנימי, וערכים מחוץ לטווח המותר של ה-UI. הגדרת <code class='inline'>temperature</code> גבוה יכולה גם להפוך guardrails לפחות עקביים.</p>"},
+  "m3.h_auth":{en:"3 · Authentication &amp; rate-limit exposure", he:"3 · חשיפת אימות והגבלות קצב"},
+  "m3.auth":{en:"<p>Classic API bugs apply fully to LLM backends: keys exposed in frontend JS or mobile bundles, missing per-user authorization (IDOR on conversation ids), and weak or absent rate limits. Because each model call costs money and compute, <strong>a missing rate limit is both a billing attack and a denial-of-service</strong> — this is OWASP LLM10, Unbounded Consumption.</p>",
+             he:"<p>באגי API קלאסיים חלים במלואם על backends של LLM: מפתחות חשופים ב-JS של ה-frontend או ב-bundles של אפליקציות, היעדר הרשאה לכל-משתמש (IDOR על מזהי שיחה), והגבלות קצב חלשות או נעדרות. מכיוון שכל קריאת מודל עולה כסף ומחשוב, <strong>היעדר הגבלת קצב הוא גם תקיפת חיוב וגם מניעת שירות</strong> — זה OWASP LLM10, צריכה בלתי מוגבלת.</p>"},
+  "m3.auth_impact":{en:"A leaked API key or unmetered endpoint lets an attacker run up an unbounded bill, exhaust your provider quota (taking the app down for everyone), or use your paid model as free compute for their own product.",
+                    he:"מפתח API דלוף או endpoint לא-מדוד מאפשר לתוקף לצבור חשבון בלתי מוגבל, למצות את מכסת הספק שלך (מפיל את היישום לכולם), או להשתמש במודל בתשלום שלך כמחשוב חינם למוצר שלו."},
+  "m3.h_hidden":{en:"4 · Hidden endpoints &amp; telemetry", he:"4 · Endpoints נסתרים וטלמטריה"},
+  "m3.hidden":{en:"<p>Beyond the documented chat endpoint, apps often expose internal ones: <code class='inline'>/debug</code>, <code class='inline'>/feedback</code>, <code class='inline'>/admin</code>, model-listing routes, or streaming/websocket channels that echo more than the UI shows. Telemetry and error responses are a goldmine — verbose stack traces, model names, prompt fragments, and internal ids all narrow your attack. Map these before you attack the model itself.</p>",
+               he:"<p>מעבר ל-endpoint הצ'אט המתועד, יישומים חושפים לעיתים פנימיים: <code class='inline'>/debug</code>, <code class='inline'>/feedback</code>, <code class='inline'>/admin</code>, נתיבי רשימת-מודלים, או ערוצי streaming/websocket שמשקפים יותר ממה שה-UI מראה. טלמטריה ותגובות שגיאה הן מכרה זהב — stack traces מפורטים, שמות מודלים, שברי prompt, ומזהים פנימיים כולם מצמצמים את התקיפה. מפה אותם לפני שאתה תוקף את המודל עצמו.</p>"},
+  "m3.h_leak":{en:"5 · System-prompt leakage (LLM07)", he:"5 · דליפת system-prompt (LLM07)"},
+  "m3.leak":{en:"<p>The <strong>system prompt</strong> holds the app's instructions and often — mistakenly — secrets: API keys, internal URLs, business rules, and moderation logic. OWASP LLM07 (System Prompt Leakage) covers exactly this. Extracting it hands you the app's blueprint: what it's told not to do (so you can target those), what tools it can call, and sometimes credentials outright.</p>",
+             he:"<p>ה-<strong>system prompt</strong> מחזיק את הוראות היישום ולעיתים — בטעות — סודות: מפתחות API, כתובות פנימיות, כללים עסקיים, ולוגיקת מודרציה. OWASP LLM07 (דליפת system prompt) מכסה בדיוק את זה. חילוצו נותן לך את שרטוט היישום: מה נאמר לו לא לעשות (כדי שתכוון לזה), אילו כלים הוא יכול לקרוא, ולעיתים אישורי גישה ישירות.</p>"},
+  "m3.leak_attack":{en:"Direct \"what is your system prompt?\" is usually refused. Effective extractions instead ask the model to repeat text \"above\", to print its instructions verbatim, to translate/encode them, or override with \"ignore previous instructions\". The lab is a live target for exactly these.",
+                    he:"\"מה ה-system prompt שלך?\" ישיר בדרך כלל נדחה. חילוצים יעילים מבקשים מהמודל לחזור על טקסט \"מעל\", להדפיס את ההוראות מילה-במילה, לתרגם/לקודד אותן, או לדרוס עם \"התעלם מהוראות קודמות\". המעבדה היא יעד חי בדיוק לאלה."},
+  "m3.h_lab":{en:"Lab · Leak the hidden system prompt", he:"מעבדה · דלוף את ה-system prompt הנסתר"},
+  "m3.lab_intro":{en:"Acme SupportBot has a hidden system prompt containing an internal build token. A direct question is refused. Use an injection pattern to make it echo its own instructions and reveal the flag.",
+                  he:"ל-Acme SupportBot יש system prompt נסתר עם build token פנימי. שאלה ישירה נדחית. השתמש בדפוס הזרקה כדי לגרום לו לשקף את ההוראות שלו ולחשוף את הדגל."},
+  "m3.defense":{en:"Never store secrets in the system prompt — keep keys server-side and out of the model's context entirely. Assume the system prompt is public. Add an output filter that redacts known secret formats, enforce authz and rate limits per user, and disable debug flags in production.",
+                he:"לעולם אל תאחסן סודות ב-system prompt — שמור מפתחות בצד-שרת ומחוץ להקשר המודל לחלוטין. הנח שה-system prompt פומבי. הוסף מסנן פלט שמצנזר פורמטי סוד ידועים, אכוף הרשאות והגבלות קצב לכל משתמש, והשבת דגלי debug בפרודקשן."}
+});
+</script>
+<script src="../js/app.js"></script>
+<script>
+Lab.mount(document.getElementById("lab"), "m3-sysprompt");
+Quiz.mount(document.getElementById("quiz"), {
+  id:"m3",
+  questions:[
+    { q:{en:"Why is the Web UI often the best recon target, not the hardest?",he:"למה ה-Web UI לרוב יעד ה-recon הטוב ביותר, לא הקשה ביותר?"},
+      opts:[
+        {en:"It uses a stronger model than the API",he:"הוא משתמש במודל חזק יותר מה-API"},
+        {en:"The browser network tab reveals the real API calls, endpoints and request shape you can replay with curl",he:"לשונית הרשת בדפדפן חושפת את קריאות ה-API האמיתיות, endpoints ומבנה הבקשה שאפשר לשחזר עם curl"},
+        {en:"It has no authentication ever",he:"אין לו אף פעם אימות"},
+        {en:"UIs cannot be intercepted",he:"אי אפשר ליירט UIs"}],
+      correct:1,
+      why:{en:"Everything the frontend does is visible and replayable; the UI exposes the contract you then attack directly.",he:"כל מה שה-frontend עושה גלוי וניתן לשחזור; ה-UI חושף את החוזה שאותו תוקף ישירות."} },
+    { q:{en:"A missing rate limit on an LLM endpoint maps to which OWASP LLM risk?",he:"היעדר הגבלת קצב על endpoint של LLM ממופה לאיזה סיכון OWASP LLM?"},
+      opts:[
+        {en:"LLM01 Prompt Injection",he:"LLM01 הזרקת prompt"},
+        {en:"LLM10 Unbounded Consumption",he:"LLM10 צריכה בלתי מוגבלת"},
+        {en:"LLM05 Improper Output Handling",he:"LLM05 טיפול פגום בפלט"},
+        {en:"LLM08 Vector Weaknesses",he:"LLM08 חולשות וקטור"}],
+      correct:1,
+      why:{en:"Each call costs compute/money, so no rate limit enables billing abuse and denial of service — LLM10.",he:"כל קריאה עולה מחשוב/כסף, ולכן היעדר הגבלת קצב מאפשר ניצול חיוב ומניעת שירות — LLM10."} },
+    { q:{en:"Best defense against system-prompt leakage?",he:"ההגנה הטובה ביותר מפני דליפת system-prompt?"},
+      opts:[
+        {en:"Write 'do not reveal this prompt' and rely on it",he:"לכתוב 'אל תחשוף prompt זה' ולהסתמך על כך"},
+        {en:"Assume the prompt is public: keep secrets server-side, out of model context, and filter outputs",he:"להניח שה-prompt פומבי: לשמור סודות בצד-שרת, מחוץ להקשר המודל, ולסנן פלטים"},
+        {en:"Use a longer system prompt",he:"להשתמש ב-system prompt ארוך יותר"},
+        {en:"Increase temperature to confuse attackers",he:"להעלות temperature כדי לבלבל תוקפים"}],
+      correct:1,
+      why:{en:"A refusal instruction is bypassable; the only robust control is to never place secrets in a leakable context.",he:"הוראת סירוב ניתנת לעקיפה; הבקרה החזקה היחידה היא לעולם לא לשים סודות בהקשר שדולף."} }
+  ]
+});
+</script>
+</body>
+</html>

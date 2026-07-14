@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 08 · LLM Pentesting Methodology — Nullprompt Academy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A professional, repeatable LLM penetration-testing process: recon, mapping, attack-vector identification, chained exploitation, and reporting — plus a capstone chained-exploit lab.">
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="topbar" data-chrome data-base="../" data-active="modules"></header>
+
+  <section class="module-hero">
+    <div class="mh-num">MODULE 08 · CAPSTONE</div>
+    <h1 data-i18n="m8.title"></h1>
+    <p data-i18n="m8.sub"></p>
+  </section>
+
+  <section class="section prose">
+    <p class="crumbs"><a href="../modules.html" data-i18n="nav.modules"></a> / <span data-i18n="m8.title"></span></p>
+
+    <div data-i18n-html="m8.intro"></div>
+
+    <div class="callout theory"><div class="ct" data-i18n="co.why"></div><p data-i18n-html="m8.why"></p></div>
+
+    <!-- methodology pipeline viz -->
+    <div class="viz">
+      <svg viewBox="0 0 640 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Methodology pipeline: scope, recon, map, identify, exploit, chain, report">
+        <rect x="0" y="0" width="640" height="130" fill="#fff"/>
+        <g font-size="11" font-weight="700" text-anchor="middle">
+          <rect x="8"   y="50" width="78" height="34" rx="7" fill="#4a0d0d"/><text x="47"  y="71" fill="#f0d9a8">0 · Scope</text>
+          <rect x="98"  y="50" width="78" height="34" rx="7" fill="#6e1414"/><text x="137" y="71" fill="#fff">1 · Recon</text>
+          <rect x="188" y="50" width="78" height="34" rx="7" fill="#8f1a1a"/><text x="227" y="71" fill="#fff">2 · Map</text>
+          <rect x="278" y="50" width="86" height="34" rx="7" fill="#a01f1f"/><text x="321" y="71" fill="#fff">3 · Identify</text>
+          <rect x="376" y="50" width="86" height="34" rx="7" fill="#b32424"/><text x="419" y="71" fill="#fff">4 · Exploit</text>
+          <rect x="474" y="50" width="78" height="34" rx="7" fill="#cc3333"/><text x="513" y="71" fill="#fff">5 · Chain</text>
+          <rect x="564" y="50" width="70" height="34" rx="7" fill="#d9a441"/><text x="599" y="71" fill="#4a0d0d">6 · Report</text>
+        </g>
+        <g stroke="#b32424" stroke-width="1.6" marker-end="url(#a8)">
+          <path d="M86 67 L96 67"/><path d="M176 67 L186 67"/><path d="M266 67 L276 67"/><path d="M364 67 L374 67"/><path d="M462 67 L472 67"/><path d="M552 67 L562 67"/>
+        </g>
+        <path d="M599 84 Q 599 110 320 110 Q 137 110 137 86" fill="none" stroke="#6b5f5c" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#a8b)"/>
+        <text x="320" y="124" font-size="10" fill="#6b5f5c" text-anchor="middle">iterate — findings feed the next round</text>
+        <defs>
+          <marker id="a8" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b32424"/></marker>
+          <marker id="a8b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#6b5f5c"/></marker>
+        </defs>
+      </svg>
+      <div class="cap" data-i18n="m8.pipe_cap"></div>
+    </div>
+
+    <div class="disclaimer" data-i18n="m8.scope"></div>
+
+    <h3 data-i18n="m8.h_recon"></h3>
+    <div data-i18n-html="m8.recon"></div>
+
+    <h3 data-i18n="m8.h_identify"></h3>
+    <div data-i18n-html="m8.identify"></div>
+
+    <h3 data-i18n="m8.h_chain"></h3>
+    <div data-i18n-html="m8.chain"></div>
+    <div class="callout attack"><div class="ct" data-i18n="co.attack"></div><p data-i18n-html="m8.chain_attack"></p></div>
+
+    <!-- CAPSTONE LAB -->
+    <h3 data-i18n="m8.h_lab"></h3>
+    <p data-i18n="m8.lab_intro"></p>
+    <div id="lab"></div>
+
+    <h3 data-i18n="m8.h_report"></h3>
+    <div data-i18n-html="m8.report"></div>
+    <pre class="term"><span class="c-cmt"># Finding template — one per issue</span>
+<span class="c-key">Title</span>       System-prompt leakage enables debug-command discovery
+<span class="c-key">OWASP</span>       LLM07 (primary) → chained with LLM01, LLM06
+<span class="c-key">Severity</span>    High   <span class="c-cmt">(impact × likelihood)</span>
+<span class="c-key">Steps</span>       1) leak prompt  2) recover '#dbg export'  3) dump vault
+<span class="c-key">Impact</span>      Full customer-vault exfiltration
+<span class="c-key">Remediation</span> Remove secrets/commands from prompt; gate debug server-side; authz per action
+<span class="c-key">Retest</span>      Re-run chain after fix; confirm command no longer reachable</pre>
+
+    <div class="callout defense"><div class="ct" data-i18n="co.takeaway"></div><p data-i18n-html="m8.takeaway"></p></div>
+
+    <div id="quiz"></div>
+
+    <div class="sources">
+      <h4 data-i18n="ui.sources"></h4>
+      <ul>
+        <li>OWASP GenAI Security Project — LLM security testing &amp; the OWASP Top 10 for LLM (2025) — genai.owasp.org</li>
+        <li>OWASP Web Security Testing Guide (WSTG) — methodology model — owasp.org/www-project-web-security-testing-guide</li>
+        <li>PTES — Penetration Testing Execution Standard — pentest-standard.org</li>
+        <li>MITRE ATLAS — atlas.mitre.org · NIST AI Risk Management Framework (AI RMF 1.0) — nist.gov</li>
+      </ul>
+    </div>
+
+    <div class="mark-complete" data-mark-complete="8"></div>
+    <div class="pager" data-pager data-current="8" data-base="../"></div>
+
+    <!-- graduation CTA -->
+    <div class="cta" style="border-radius:12px;margin-top:30px">
+      <h2 data-i18n="m8.grad_title"></h2>
+      <p data-i18n="m8.grad_text"></p>
+      <a class="cta-btn" href="../ctf/ctf.html" data-i18n="nav.ctf"></a>
+    </div>
+  </section>
+
+  <footer class="footer"><p data-i18n="footer.tag"></p></footer>
+</div>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/modules-data.js"></script>
+<script src="../js/labs.js"></script>
+<script>
+I18N.register({
+  "co.why":{en:"Why this matters", he:"למה זה חשוב"},
+  "co.attack":{en:"Attacker's view", he:"נקודת מבט התוקף"},
+  "co.defense":{en:"Defense", he:"הגנה"},
+  "co.takeaway":{en:"Takeaway", he:"שורה תחתונה"},
+  "m8.title":{en:"LLM Pentesting Methodology", he:"מתודולוגיית בדיקות חדירה ל-LLM"},
+  "m8.sub":{en:"Everything you've learned, assembled into one repeatable process — from authorized scope to a chained exploit to a report a client can act on.",
+            he:"כל מה שלמדת, מורכב לתהליך אחד חוזר — מ-scope מורשה, דרך ניצול משורשר, ועד דוח שהלקוח יכול לפעול לפיו."},
+  "m8.intro":{en:"<p>A penetration test is not a pile of tricks — it's a <strong>methodology</strong>: a repeatable process that guarantees coverage, produces evidence, and yields a report someone can act on. The individual techniques from Modules 01–07 are your toolkit; this module is the discipline that turns them into a professional engagement.</p><p>The process is a loop: define scope, do reconnaissance, map the system, identify attack vectors against a checklist (the OWASP Top 10), exploit them, chain findings into higher impact, and report. Findings from each round feed the next. Structure is what separates a tester who \"found a prompt injection\" from one who demonstrates full customer-data exfiltration and hands over a fix.</p>",
+             he:"<p>בדיקת חדירה אינה ערימת טריקים — היא <strong>מתודולוגיה</strong>: תהליך חוזר שמבטיח כיסוי, מייצר ראיות, ומפיק דוח שמישהו יכול לפעול לפיו. הטכניקות הבודדות ממודולים 01–07 הן ארגז הכלים שלך; המודול הזה הוא המשמעת שהופכת אותן לבדיקה מקצועית.</p><p>התהליך הוא לולאה: הגדרת scope, recon, מיפוי המערכת, זיהוי וקטורי תקיפה מול רשימת תיוג (OWASP Top 10), ניצול, שרשור ממצאים להשפעה גבוהה יותר, ודיווח. ממצאים מכל סבב מזינים את הבא. מבנה הוא מה שמפריד בין בודק ש\"מצא prompt injection\" לבין אחד שמדגים חילוץ מלא של נתוני לקוחות ומוסר תיקון.</p>"},
+  "m8.why":{en:"Clients don't pay for cleverness — they pay for coverage, evidence, and actionable remediation. A methodology gives you all three, makes your work repeatable and defensible, and ensures you don't miss a whole risk class because you got absorbed in one bug.",
+            he:"לקוחות לא משלמים על תחכום — הם משלמים על כיסוי, ראיות, ותיקון ישים. מתודולוגיה נותנת את שלושתם, הופכת את העבודה לחוזרת ומוגנת, ומבטיחה שלא תפספס מחלקת-סיכון שלמה כי נבלעת בבאג אחד."},
+  "m8.pipe_cap":{en:"The engagement loop. Scope first, report last, and every finding feeds the next round of recon.",
+                 he:"לולאת הבדיקה. Scope תחילה, דיווח בסוף, וכל ממצא מזין את סבב ה-recon הבא."},
+  "m8.scope":{en:"Rules of engagement first: never test a system without explicit written authorization and a defined scope. Everything in this academy assumes an authorized target. Testing systems you don't own or have permission to assess is illegal.",
+              he:"כללי בדיקה קודם כול: לעולם אל תבדוק מערכת ללא הרשאה כתובה מפורשת ו-scope מוגדר. כל האקדמיה מניחה יעד מורשה. בדיקת מערכות שאינן שלך או ללא הרשאה היא בלתי חוקית."},
+  "m8.h_recon":{en:"1 · Reconnaissance &amp; system mapping", he:"1 · Recon ומיפוי מערכת"},
+  "m8.recon":{en:"<p>Start by learning the target as a system, not a chatbot (Modules 03 &amp; 05). Enumerate the interfaces (UI, REST, SDK, CLI) and replay UI traffic with curl. Fingerprint the model and its behavior. Map the components and data flows — where does the backend inject the system prompt, is there a RAG store, what tools can the agent call, and which external sources does it ingest? Draw the trust boundaries. The deliverable of this phase is an <strong>architecture diagram with every untrusted-to-trusted crossing marked</strong> — that map drives everything after it.</p>",
+              he:"<p>התחל בהיכרות עם היעד כמערכת, לא כצ'אטבוט (מודולים 03 ו-05). מנה את הממשקים (UI, REST, SDK, CLI) ושחזר את תעבורת ה-UI עם curl. טבע את המודל והתנהגותו. מפה את הרכיבים וזרימות המידע — היכן ה-backend מזריק את ה-system prompt, האם יש מאגר RAG, אילו כלים הסוכן יכול לקרוא, ואילו מקורות חיצוניים הוא בולע? צייר את גבולות האמון. התוצר של השלב הזה הוא <strong>דיאגרמת ארכיטקטורה עם כל מעבר מלא-אמין-לאמין מסומן</strong> — המפה הזו מניעה את כל מה שאחריה.</p>"},
+  "m8.h_identify":{en:"2 · Attack-vector identification &amp; test planning", he:"2 · זיהוי וקטורי תקיפה ותכנון בדיקה"},
+  "m8.identify":{en:"<p>Now walk the <strong>OWASP Top 10 for LLM</strong> (Module 07) against your map and, for each category, ask \"is this reachable here, and how would I prove it?\" This converts a vague target into a concrete test plan: a prioritized list of hypotheses, each tied to a component, a technique, and an expected impact. Prioritize by impact × likelihood — a reachable path to a privileged tool (LLM06) outranks a cosmetic hallucination. The plan keeps you systematic and gives the client a coverage story even for the vectors that turned out not to be exploitable.</p>",
+                 he:"<p>עכשיו עבור על <strong>OWASP Top 10 ל-LLM</strong> (מודול 07) מול המפה שלך, ולכל קטגוריה שאל \"האם זה נגיש כאן, ואיך אוכיח זאת?\" זה הופך יעד מעורפל לתוכנית בדיקה מוחשית: רשימת השערות מתועדפת, כל אחת קשורה לרכיב, טכניקה, והשפעה צפויה. תעדף לפי השפעה × סבירות — נתיב נגיש לכלי מורשה (LLM06) גובר על הזיה קוסמטית. התוכנית שומרת עליך שיטתי ונותנת ללקוח סיפור כיסוי גם לווקטורים שהתבררו כלא-נצילים.</p>"},
+  "m8.h_chain":{en:"3 · Chained exploitation &amp; payload crafting", he:"3 · ניצול משורשר ובניית payloads"},
+  "m8.chain":{en:"<p>Individual bugs are findings; <strong>chained bugs are incidents</strong>. The highest-impact results come from linking weaknesses: a system-prompt leak (LLM07) reveals a hidden command, which a prompt injection (LLM01) then triggers, driving an over-privileged tool (LLM06) to exfiltrate data. Craft payloads iteratively — start from the recon facts, adapt to the model's actual responses, and escalate one step at a time. Each successful step becomes recon for the next. Your goal is to demonstrate the full path to concrete impact, not just the first anomaly.</p>",
+              he:"<p>באגים בודדים הם ממצאים; <strong>באגים משורשרים הם אירועים</strong>. התוצאות בעלות ההשפעה הגבוהה ביותר מגיעות מקישור חולשות: דליפת system-prompt (LLM07) חושפת פקודה נסתרת, ש-prompt injection (LLM01) מפעיל, ומניע כלי עם יותר מדי הרשאות (LLM06) לחלץ מידע. בנה payloads באיטרציות — התחל מעובדות ה-recon, הסתגל לתגובות האמיתיות של המודל, והסלם צעד אחר צעד. כל צעד מוצלח הופך ל-recon לבא. המטרה היא להדגים את הנתיב המלא להשפעה מוחשית, לא רק את החריגה הראשונה.</p>"},
+  "m8.chain_attack":{en:"The capstone lab below is a real chain: you cannot skip to the payoff. Recon must succeed before the exploit unlocks — exactly like a real engagement, where you weaponize what recon reveals.",
+                     he:"מעבדת השיא למטה היא שרשרת אמיתית: אי אפשר לדלג לתגמול. ה-recon חייב להצליח לפני שהניצול נפתח — בדיוק כמו בבדיקה אמיתית, שבה אתה מנשל את מה שה-recon חושף."},
+  "m8.h_lab":{en:"Capstone lab · Recon → leak → weaponize → exfiltrate", he:"מעבדת שיא · Recon → leak → נישול → חילוץ"},
+  "m8.lab_intro":{en:"FinBot hides a maintenance command that dumps the customer vault — but you can't guess it. Run the methodology: first leak the system prompt to discover the exact command (recon), then send that command to trigger the dump (weaponize). The debug action stays locked until your recon succeeds.",
+                  he:"FinBot מסתיר פקודת תחזוקה שמחלצת את כספת הלקוחות — אבל אי אפשר לנחש אותה. הרץ את המתודולוגיה: קודם דלוף את ה-system prompt כדי לגלות את הפקודה המדויקת (recon), אז שלח את הפקודה כדי להפעיל את החילוץ (נישול). פעולת ה-debug נעולה עד שה-recon מצליח."},
+  "m8.h_report":{en:"4 · Reporting &amp; remediation guidance", he:"4 · דיווח והנחיות תיקון"},
+  "m8.report":{en:"<p>The report is the product. Each finding needs: a clear title, the OWASP LLM id(s) and the chain, a severity (impact × likelihood), reproducible steps with evidence, concrete business impact, and specific, prioritized remediation — plus a retest to confirm the fix. Write for two audiences: an executive summary leadership reads for risk, and technical detail engineers use to fix. A finding without actionable remediation is just a complaint.</p>",
+               he:"<p>הדוח הוא המוצר. כל ממצא צריך: כותרת ברורה, מזהי OWASP LLM והשרשרת, חומרה (השפעה × סבירות), צעדי שחזור עם ראיות, השפעה עסקית מוחשית, ותיקון ספציפי ומתועדף — בתוספת retest לאישור התיקון. כתוב לשני קהלים: תקציר מנהלים שההנהלה קוראת לסיכון, ופירוט טכני שמהנדסים משתמשים בו כדי לתקן. ממצא ללא תיקון ישים הוא סתם תלונה.</p>"},
+  "m8.takeaway":{en:"Methodology beats talent over time: scope, recon, map, identify against the Top 10, exploit, chain, report, retest. Do it the same way every engagement and your coverage, evidence, and impact all become repeatable. You now have the full loop — go run it.",
+                 he:"מתודולוגיה מנצחת כישרון לאורך זמן: scope, recon, מיפוי, זיהוי מול ה-Top 10, ניצול, שרשור, דיווח, retest. עשה זאת באותו אופן בכל בדיקה, והכיסוי, הראיות, וההשפעה כולם הופכים לחוזרים. יש לך כעת את הלולאה המלאה — צא והרץ אותה."},
+  "m8.grad_title":{en:"🎓 You've reached the capstone", he:"🎓 הגעת למודול השיא"},
+  "m8.grad_text":{en:"You've covered all eight modules. Put the full methodology to work against the cross-module CTF challenges.",
+                  he:"סיימת את כל שמונת המודולים. הפעל את המתודולוגיה המלאה על אתגרי ה-CTF חוצי-המודולים."}
+});
+</script>
+<script src="../js/app.js"></script>
+<script>
+Lab.mount(document.getElementById("lab"), "m8-chain");
+Quiz.mount(document.getElementById("quiz"), {
+  id:"m8",
+  questions:[
+    { q:{en:"What is the FIRST step of any engagement, before recon?",he:"מהו הצעד הראשון בכל בדיקה, לפני recon?"},
+      opts:[
+        {en:"Launch the exploit immediately",he:"להשיק את הניצול מיד"},
+        {en:"Define authorized scope and rules of engagement (written permission)",he:"להגדיר scope מורשה וכללי בדיקה (הרשאה כתובה)"},
+        {en:"Write the report",he:"לכתוב את הדוח"},
+        {en:"Poison the training data",he:"להרעיל את נתוני האימון"}],
+      correct:1,
+      why:{en:"No authorization, no test. Scope and rules of engagement come before any activity.",he:"אין הרשאה, אין בדיקה. Scope וכללי בדיקה קודמים לכל פעילות."} },
+    { q:{en:"Why is chained exploitation emphasized over single bugs?",he:"למה מודגש ניצול משורשר על פני באגים בודדים?"},
+      opts:[
+        {en:"It looks more impressive",he:"זה נראה מרשים יותר"},
+        {en:"Linking weaknesses (leak → injection → tool) turns a low finding into demonstrated critical impact",he:"קישור חולשות (דליפה → הזרקה → כלי) הופך ממצא נמוך להשפעה קריטית מודגמת"},
+        {en:"Single bugs can't be reported",he:"אי אפשר לדווח על באגים בודדים"},
+        {en:"Chaining avoids needing a report",he:"שרשור חוסך את הצורך בדוח"}],
+      correct:1,
+      why:{en:"Impact is the currency of a pentest; chains prove the real-world worst case, not just an anomaly.",he:"השפעה היא המטבע של בדיקת חדירה; שרשראות מוכיחות את המקרה הגרוע האמיתי, לא רק חריגה."} },
+    { q:{en:"A finding is only actionable when it includes:",he:"ממצא הוא ישים רק כשהוא כולל:"},
+      opts:[
+        {en:"A screenshot and nothing else",he:"צילום מסך ותו לא"},
+        {en:"Reproducible steps, severity, business impact, and specific remediation (+ retest)",he:"צעדי שחזור, חומרה, השפעה עסקית, ותיקון ספציפי (+ retest)"},
+        {en:"Only the OWASP id",he:"רק מזהה OWASP"},
+        {en:"A list of tools you used",he:"רשימת הכלים שהשתמשת"}],
+      correct:1,
+      why:{en:"Remediation and reproducibility are what let the client actually fix and verify the issue.",he:"תיקון ושחזוריות הם מה שמאפשר ללקוח באמת לתקן ולאמת את הבעיה."} }
+  ]
+});
+</script>
+</body>
+</html>

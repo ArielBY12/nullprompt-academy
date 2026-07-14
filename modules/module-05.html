@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 05 · AI &amp; LLM Attack Surface — Nullprompt Academy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Map the components, data flows and trust boundaries of an AI system. Interactive attack-surface mapper — find the boundary where untrusted content becomes trusted.">
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="topbar" data-chrome data-base="../" data-active="modules"></header>
+
+  <section class="module-hero">
+    <div class="mh-num">MODULE 05</div>
+    <h1 data-i18n="m5.title"></h1>
+    <p data-i18n="m5.sub"></p>
+  </section>
+
+  <section class="section prose">
+    <p class="crumbs"><a href="../modules.html" data-i18n="nav.modules"></a> / <span data-i18n="m5.title"></span></p>
+
+    <div data-i18n-html="m5.intro"></div>
+
+    <div class="callout theory"><div class="ct" data-i18n="co.why"></div><p data-i18n-html="m5.why"></p></div>
+
+    <h3 data-i18n="m5.h_layers"></h3>
+    <div data-i18n-html="m5.layers"></div>
+
+    <!-- INTERACTIVE ATTACK-SURFACE MAP -->
+    <h3 data-i18n="m5.h_map"></h3>
+    <p data-i18n="m5.map_intro"></p>
+    <div class="lab">
+      <div class="lab-head">
+        <span class="lt" data-i18n="m5.map_title"></span>
+        <span class="goal"><strong data-i18n="ui.goal"></strong>: <span data-i18n="m5.map_goal"></span></span>
+      </div>
+      <div class="lab-body">
+        <p class="lab-desc" data-i18n="m5.map_desc"></p>
+        <div id="asm-flow" style="display:flex;flex-wrap:wrap;gap:8px;align-items:stretch"></div>
+        <div id="asm-detail" style="margin-top:14px"></div>
+        <div class="flag-input">
+          <input type="text" id="asm-flag" placeholder="NP{...}" aria-label="Submit captured flag">
+          <button type="button" class="btn gold" id="asm-flagbtn" data-i18n="ui.submitFlag"></button>
+          <span class="flag-status" id="asm-flagstatus"></span>
+        </div>
+      </div>
+    </div>
+
+    <h3 data-i18n="m5.h_trust"></h3>
+    <div data-i18n-html="m5.trust"></div>
+    <div class="callout attack"><div class="ct" data-i18n="co.attack"></div><p data-i18n-html="m5.trust_attack"></p></div>
+
+    <h3 data-i18n="m5.h_vs"></h3>
+    <div data-i18n-html="m5.vs"></div>
+
+    <div class="callout defense"><div class="ct" data-i18n="co.defense"></div><p data-i18n-html="m5.defense"></p></div>
+
+    <div id="quiz"></div>
+
+    <div class="sources">
+      <h4 data-i18n="ui.sources"></h4>
+      <ul>
+        <li>OWASP Top 10 for LLM Applications (2025) — application architecture &amp; LLM08 Vector/Embedding Weaknesses — genai.owasp.org</li>
+        <li>MITRE ATLAS — adversarial threat landscape for AI systems — atlas.mitre.org</li>
+        <li>Google — Secure AI Framework (SAIF) — safety.google/cybersecurity-advancements/saif</li>
+        <li>NIST AI Risk Management Framework (AI RMF 1.0) — nist.gov</li>
+      </ul>
+    </div>
+
+    <div class="mark-complete" data-mark-complete="5"></div>
+    <div class="pager" data-pager data-current="5" data-base="../"></div>
+  </section>
+
+  <footer class="footer"><p data-i18n="footer.tag"></p></footer>
+</div>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/modules-data.js"></script>
+<script src="../js/labs.js"></script>
+<script>
+I18N.register({
+  "co.why":{en:"Why this matters", he:"למה זה חשוב"},
+  "co.attack":{en:"Attacker's view", he:"נקודת מבט התוקף"},
+  "co.defense":{en:"Defense", he:"הגנה"},
+  "m5.title":{en:"AI & LLM Attack Surface", he:"משטח התקיפה של AI ו-LLM"},
+  "m5.sub":{en:"A real AI product is not just a model — it's a pipeline of components with data flowing across trust boundaries. Map that pipeline and you find where to attack.",
+            he:"מוצר AI אמיתי אינו רק מודל — הוא צינור של רכיבים עם מידע שזורם בין גבולות אמון. מפה את הצינור ותמצא איפה לתקוף."},
+  "m5.intro":{en:"<p>Modules 01–04 attacked <em>the model</em>: its tokens, its guardrails, its prompts. But in production the model is one box inside a larger system — a frontend, a backend, an orchestration layer, a vector database, external tools, and third-party data sources. Most real-world compromises exploit the <strong>system around the model</strong>, not the model itself.</p><p>This module teaches you to think like an architect before you think like an attacker: enumerate every component, trace how data flows between them, and mark the <strong>trust boundaries</strong> — the lines where data moves from a less-trusted zone into a more-trusted one without being re-validated. Those boundaries are where the highest-impact bugs live, and mapping them is the first real step of the methodology in Module 08.</p>",
+             he:"<p>מודולים 01–04 תקפו את <em>המודל</em>: הטוקנים שלו, ה-guardrails שלו, ה-prompts שלו. אבל בפרודקשן המודל הוא קופסה אחת בתוך מערכת גדולה יותר — frontend, backend, שכבת אורקסטרציה, מסד נתונים וקטורי, כלים חיצוניים, ומקורות מידע צד-שלישי. רוב הפריצות בעולם האמיתי מנצלות את <strong>המערכת סביב המודל</strong>, לא את המודל עצמו.</p><p>המודול הזה מלמד אותך לחשוב כארכיטקט לפני שאתה חושב כתוקף: למנות כל רכיב, לעקוב אחר זרימת המידע ביניהם, ולסמן את <strong>גבולות האמון</strong> — הקווים שבהם מידע עובר מאזור פחות-אמין לאזור אמין-יותר בלי אימות מחדש. הגבולות האלה הם המקום שבו חיים הבאגים בעלי ההשפעה הגבוהה ביותר, ומיפוים הוא הצעד הראשון האמיתי של המתודולוגיה במודול 08.</p>"},
+  "m5.why":{en:"Attacking a well-defended model directly is hard. Attacking the plumbing around it — an over-privileged tool, a poisoned document store, a missing authorization check — is often easy and far more impactful. The map you build here decides where you spend your time.",
+            he:"לתקוף מודל מוגן-היטב ישירות זה קשה. לתקוף את הצנרת סביבו — כלי עם יותר מדי הרשאות, מאגר מסמכים מורעל, בדיקת הרשאה חסרה — לרוב קל והרבה יותר משמעותי. המפה שתבנה כאן קובעת איפה תשקיע את הזמן שלך."},
+  "m5.h_layers":{en:"1 · The layers of an AI application", he:"1 · שכבות של יישום AI"},
+  "m5.layers":{en:"<p>A typical LLM-powered application is built from these layers, each with its own exposures:</p><ul><li><strong>Frontend / client</strong> — the UI, mobile app or SDK. Untrusted by definition; leaks API shapes and sometimes keys.</li><li><strong>Backend / API</strong> — assembles the prompt, injects the system prompt, enforces auth. The trusted core.</li><li><strong>Orchestration</strong> — the \"agent\" glue that routes between model, retrieval and tools, and decides what runs.</li><li><strong>Retrieval / Vector DB</strong> — stores embeddings of documents and injects retrieved chunks into the prompt (RAG).</li><li><strong>Tools / plugins</strong> — code the model can invoke: search, email, database, shell. High privilege.</li><li><strong>Model</strong> — the LLM itself.</li><li><strong>External data sources</strong> — web pages, files, emails, APIs the system ingests. Fully untrusted.</li></ul>",
+               he:"<p>יישום טיפוסי מבוסס-LLM בנוי מהשכבות הבאות, לכל אחת חשיפות משלה:</p><ul><li><strong>Frontend / לקוח</strong> — ה-UI, אפליקציה או SDK. לא-אמין בהגדרה; דולף מבני API ולעיתים מפתחות.</li><li><strong>Backend / API</strong> — מרכיב את ה-prompt, מזריק את ה-system prompt, אוכף אימות. הליבה האמינה.</li><li><strong>אורקסטרציה</strong> — דבק ה\"סוכן\" שמנתב בין מודל, אחזור וכלים, ומחליט מה רץ.</li><li><strong>אחזור / Vector DB</strong> — מאחסן embeddings של מסמכים ומזריק קטעים שאוחזרו לתוך ה-prompt (RAG).</li><li><strong>כלים / תוספים</strong> — קוד שהמודל יכול להפעיל: חיפוש, אימייל, מסד נתונים, shell. הרשאה גבוהה.</li><li><strong>מודל</strong> — ה-LLM עצמו.</li><li><strong>מקורות מידע חיצוניים</strong> — דפי אינטרנט, קבצים, אימיילים, APIs שהמערכת בולעת. לא-אמינים לחלוטין.</li></ul>"},
+  "m5.h_map":{en:"2 · Interactive · Map the attack surface", he:"2 · אינטראקטיבי · מפה את משטח התקיפה"},
+  "m5.map_intro":{en:"Click each component to inspect its role, trust level and top attacks. Then answer the challenge to capture the flag.",
+                  he:"לחץ על כל רכיב כדי לבחון את תפקידו, רמת האמון והתקיפות המובילות. אז ענה על האתגר כדי ללכוד את הדגל."},
+  "m5.map_title":{en:"Attack-surface mapper", he:"ממפה משטח תקיפה"},
+  "m5.map_goal":{en:"Find the critical trust-boundary violation", he:"מצא את הפרת גבול-האמון הקריטית"},
+  "m5.map_desc":{en:"Challenge: click the ONE component where untrusted EXTERNAL content is pulled in and fed to the model as if it were trusted context — the prime indirect-injection entry point. A correct pick reveals the flag.",
+                 he:"אתגר: לחץ על הרכיב האחד שבו תוכן חיצוני לא-אמין נמשך פנימה ומוזן למודל כאילו היה הקשר אמין — נקודת הכניסה המרכזית להזרקה עקיפה. בחירה נכונה חושפת את הדגל."},
+  "m5.h_trust":{en:"3 · Trust boundaries", he:"3 · גבולות אמון"},
+  "m5.trust":{en:"<p>A <strong>trust boundary</strong> is any point where data or control passes between components with different trust levels. The classic mistake in AI systems is treating <em>retrieved</em> or <em>tool-returned</em> content as trusted just because it arrived through an internal call — when its ultimate source is the attacker (a poisoned document, a crafted web page). Every arrow that crosses from \"untrusted\" to \"trusted\" without validation is a finding.</p><p>Key boundaries to always check: user input → prompt assembly; external content → retrieval store; retrieval store → model context; model output → tool invocation; model output → the user's browser (rendering).</p>",
+              he:"<p><strong>גבול אמון</strong> הוא כל נקודה שבה מידע או שליטה עוברים בין רכיבים ברמות אמון שונות. הטעות הקלאסית במערכות AI היא להתייחס לתוכן <em>שאוחזר</em> או <em>שהוחזר מכלי</em> כאמין רק כי הגיע דרך קריאה פנימית — כשמקורו האמיתי הוא התוקף (מסמך מורעל, דף אינטרנט מעוצב). כל חץ שחוצה מ\"לא-אמין\" ל\"אמין\" ללא אימות הוא ממצא.</p><p>גבולות מפתח לבדוק תמיד: קלט משתמש → הרכבת prompt; תוכן חיצוני → מאגר אחזור; מאגר אחזור → הקשר המודל; פלט מודל → הפעלת כלי; פלט מודל → דפדפן המשתמש (רינדור).</p>"},
+  "m5.trust_attack":{en:"When you report, name the exact boundary and the missing control: \"External web content flows into the RAG store and then into the model context with no sanitization, enabling indirect prompt injection (LLM01 + LLM08).\" Precise boundary language is what makes a finding actionable.",
+                     he:"כשאתה מדווח, נקוב בגבול המדויק ובבקרה החסרה: \"תוכן אינטרנט חיצוני זורם למאגר ה-RAG ואז להקשר המודל ללא סניטציה, ומאפשר indirect prompt injection (LLM01 + LLM08).\" שפת-גבול מדויקת היא מה שהופך ממצא לניתן-לפעולה."},
+  "m5.h_vs":{en:"4 · Attacking the model vs. the system", he:"4 · תקיפת המודל מול תקיפת המערכת"},
+  "m5.vs":{en:"<p>Two mindsets, applied together. <strong>Attacking the model</strong> = jailbreaks, prompt injection, extraction — making the model itself misbehave (Modules 02–04). <strong>Attacking the system</strong> = classic AppSec turned on the pipeline: broken authorization on conversation ids, SSRF via a tool that fetches URLs, an over-privileged database tool, secrets in the vector store, missing rate limits. The most damaging real-world exploits <em>chain</em> the two: a prompt injection (model) that triggers an over-privileged tool call (system) to exfiltrate data. You'll build exactly that chain in Module 08.</p>",
+           he:"<p>שתי גישות, מיושמות יחד. <strong>תקיפת המודל</strong> = jailbreaks, prompt injection, חילוץ — לגרום למודל עצמו להתנהג לא כשורה (מודולים 02–04). <strong>תקיפת המערכת</strong> = AppSec קלאסי מופנה לצינור: הרשאה שבורה על מזהי שיחה, SSRF דרך כלי שמושך URLs, כלי מסד-נתונים עם יותר מדי הרשאות, סודות במאגר הווקטורי, היעדר הגבלות קצב. הניצולים המזיקים ביותר בעולם האמיתי <em>משרשרים</em> את השניים: prompt injection (מודל) שמפעיל קריאת כלי עם יותר מדי הרשאות (מערכת) כדי לחלץ מידע. תבנה בדיוק את השרשרת הזו במודול 08.</p>"},
+  "m5.defense":{en:"Draw the data-flow diagram and mark every trust boundary explicitly. At each boundary add a control: sanitize/validate crossing data, isolate untrusted content from instructions, apply least privilege to every tool, and never let model output cross into a privileged action or the user's DOM without checks. You cannot defend a boundary you haven't drawn.",
+                he:"צייר את דיאגרמת זרימת-המידע וסמן כל גבול אמון במפורש. בכל גבול הוסף בקרה: סנן/אמת מידע חוצה, בודד תוכן לא-אמין מהוראות, החל least privilege על כל כלי, ולעולם אל תיתן לפלט מודל לחצות לפעולה מורשית או ל-DOM של המשתמש ללא בדיקות. אי אפשר להגן על גבול שלא ציירת."}
+});
+</script>
+<script src="../js/app.js"></script>
+<script>
+(function(){
+  const FLAG = "NP{trust_b0undary_map}";
+  const comps = [
+    { id:"frontend", answer:false,
+      name:{en:"Frontend / Client",he:"Frontend / לקוח"}, trust:{en:"UNTRUSTED",he:"לא-אמין"}, cls:"attack",
+      note:{en:"Runs on the attacker's device. Leaks API request shapes and sometimes keys; everything here is replayable with curl.",he:"רץ על מכשיר התוקף. דולף מבני בקשת API ולעיתים מפתחות; הכול כאן ניתן לשחזור עם curl."} },
+    { id:"backend", answer:false,
+      name:{en:"Backend / API",he:"Backend / API"}, trust:{en:"TRUSTED CORE",he:"ליבה אמינה"}, cls:"defense",
+      note:{en:"Injects the system prompt and enforces auth. Classic bugs: broken authorization (IDOR on chat ids), missing rate limits (LLM10).",he:"מזריק את ה-system prompt ואוכף אימות. באגים קלאסיים: הרשאה שבורה (IDOR על מזהי צ'אט), היעדר הגבלות קצב (LLM10)."} },
+    { id:"orchestration", answer:false,
+      name:{en:"Orchestration",he:"אורקסטרציה"}, trust:{en:"TRUSTED",he:"אמין"}, cls:"defense",
+      note:{en:"Decides what the agent runs and assembles context from many sources. Flaws here mix trusted and untrusted text into one prompt.",he:"מחליט מה הסוכן מריץ ומרכיב הקשר ממקורות רבים. פגמים כאן מערבבים טקסט אמין ולא-אמין ל-prompt אחד."} },
+    { id:"vectordb", answer:true,
+      name:{en:"Retrieval / Vector DB",he:"אחזור / Vector DB"}, trust:{en:"BOUNDARY ⚠",he:"גבול ⚠"}, cls:"attack",
+      note:{en:"Stores embeddings of EXTERNAL documents and injects retrieved chunks straight into the model's context. Untrusted content becomes 'trusted' context here — the prime indirect-injection entry point (LLM01 + LLM08).",he:"מאחסן embeddings של מסמכים חיצוניים ומזריק קטעים שאוחזרו ישר להקשר המודל. תוכן לא-אמין הופך כאן להקשר 'אמין' — נקודת הכניסה המרכזית להזרקה עקיפה (LLM01 + LLM08)."} },
+    { id:"tools", answer:false,
+      name:{en:"Tools / Plugins",he:"כלים / תוספים"}, trust:{en:"HIGH PRIVILEGE",he:"הרשאה גבוהה"}, cls:"impact",
+      note:{en:"Code the model can invoke (search, email, DB, shell). Excessive agency (LLM06) and SSRF live here — dangerous when driven by an injection.",he:"קוד שהמודל יכול להפעיל (חיפוש, אימייל, DB, shell). Excessive agency (LLM06) ו-SSRF חיים כאן — מסוכן כשמונע ע\"י הזרקה."} },
+    { id:"model", answer:false,
+      name:{en:"Model (LLM)",he:"מודל (LLM)"}, trust:{en:"SEMI-TRUSTED",he:"חצי-אמין"}, cls:"impact",
+      note:{en:"Target of jailbreaks and injection (Modules 02–04). Its output must be treated as untrusted whenever it derived from untrusted input.",he:"מטרת jailbreaks והזרקה (מודולים 02–04). יש להתייחס לפלט שלו כלא-אמין בכל פעם שנגזר מקלט לא-אמין."} },
+    { id:"external", answer:false,
+      name:{en:"External sources",he:"מקורות חיצוניים"}, trust:{en:"UNTRUSTED",he:"לא-אמין"}, cls:"attack",
+      note:{en:"Web pages, files, emails, third-party APIs. Fully attacker-influenceable — the origin of indirect-injection payloads, but not itself where they cross into trusted context.",he:"דפי אינטרנט, קבצים, אימיילים, APIs צד-שלישי. ניתנים להשפעה מלאה ע\"י תוקף — המקור של payloads להזרקה עקיפה, אך לא המקום שבו הם חוצים להקשר אמין."} }
+  ];
+  const flow = document.getElementById("asm-flow");
+  const detail = document.getElementById("asm-detail");
+  let solved = Progress.isFlagCaptured(FLAG);
+
+  function trustColor(cls){return cls==="attack"?"var(--attack)":cls==="defense"?"var(--defense)":"var(--impact)";}
+
+  function draw(){
+    const L = I18N.lang;
+    flow.innerHTML = "";
+    comps.forEach((c,i)=>{
+      const card = document.createElement("button");
+      card.type="button";
+      card.style.cssText="flex:1 1 120px;min-width:120px;text-align:start;background:#fff;border:1px solid var(--line);border-inline-start:4px solid "+trustColor(c.cls)+";border-radius:8px;padding:10px 12px;cursor:pointer;font:inherit";
+      card.innerHTML = '<div style="font-weight:700;font-size:13px">'+c.name[L]+'</div><div style="font-size:10.5px;font-weight:700;letter-spacing:.04em;color:'+trustColor(c.cls)+';margin-top:3px">'+c.trust[L]+'</div>';
+      card.addEventListener("click",()=>pick(c));
+      flow.appendChild(card);
+      if(i<comps.length-1){const a=document.createElement("span");a.textContent=L==="he"?"←":"→";a.style.cssText="align-self:center;color:var(--muted)";flow.appendChild(a);}
+    });
+  }
+  function pick(c){
+    const L = I18N.lang;
+    const correct = c.answer;
+    detail.innerHTML =
+      '<div class="callout '+c.cls+'"><div class="ct">'+c.name[L]+' · '+c.trust[L]+'</div><p>'+c.note[L]+'</p>'+
+      (correct
+        ? '<p style="font-weight:700;color:var(--defense);margin-top:8px">✓ '+(L==="he"?"זה גבול-האמון הקריטי. דגל נחשף: ":"This is the critical trust boundary. Flag revealed: ")+'<span dir="ltr">'+FLAG+'</span></p>'
+        : '<p style="font-weight:700;color:var(--impact);margin-top:8px">'+(L==="he"?"רכיב חשוב — אך לא הגבול שבו תוכן לא-אמין הופך לאמין. המשך לחפש.":"Important component — but not the boundary where untrusted content becomes trusted. Keep looking.")+'</p>')+
+      '</div>';
+  }
+  const fIn=document.getElementById("asm-flag"), fBtn=document.getElementById("asm-flagbtn"), fSt=document.getElementById("asm-flagstatus");
+  function submit(){
+    const ok=(fIn.value||"").trim()===FLAG;
+    fSt.textContent = ok?I18N.t("ui.flagCorrect"):I18N.t("ui.flagWrong");
+    fSt.className="flag-status "+(ok?"ok":"bad");
+    if(ok){Progress.captureFlag(FLAG);document.dispatchEvent(new CustomEvent("np:flag",{detail:{id:"m5-map"}}));}
+  }
+  fBtn.addEventListener("click",submit);
+  fIn.addEventListener("keydown",e=>{if(e.key==="Enter")submit();});
+  if(solved){fSt.textContent=I18N.t("ui.solved")+" ✓";fSt.className="flag-status ok";}
+  draw();
+  document.addEventListener("np:lang",()=>{draw();detail.innerHTML="";});
+
+  Quiz.mount(document.getElementById("quiz"), {
+    id:"m5",
+    questions:[
+      { q:{en:"Why do most real-world AI compromises target the system, not the model?",he:"למה רוב הפריצות ל-AI בעולם האמיתי מכוונות למערכת, לא למודל?"},
+        opts:[
+          {en:"Models are impossible to attack",he:"אי אפשר לתקוף מודלים"},
+          {en:"The plumbing around the model — tools, retrieval, authz — is often weaker and higher-impact than the hardened model",he:"הצנרת סביב המודל — כלים, אחזור, הרשאות — לרוב חלשה ומשמעותית יותר מהמודל המוקשח"},
+          {en:"Systems have no authentication",he:"למערכות אין אימות"},
+          {en:"The model has no attack surface",he:"למודל אין משטח תקיפה"}],
+        correct:1,
+        why:{en:"A hardened model is hard to break directly; an over-privileged tool or an unsanitized retrieval store is easy and more damaging.",he:"מודל מוקשח קשה לשבירה ישירה; כלי עם יותר מדי הרשאות או מאגר אחזור לא-מסונן קל ומזיק יותר."} },
+      { q:{en:"What defines a trust boundary?",he:"מה מגדיר גבול אמון?"},
+        opts:[
+          {en:"Any encrypted connection",he:"כל חיבור מוצפן"},
+          {en:"A point where data/control passes between components of different trust levels",he:"נקודה שבה מידע/שליטה עוברים בין רכיבים ברמות אמון שונות"},
+          {en:"The firewall",he:"ה-firewall"},
+          {en:"The login page only",he:"רק דף ההתחברות"}],
+        correct:1,
+        why:{en:"Boundaries are where less-trusted data enters a more-trusted zone — the spots that must re-validate.",he:"גבולות הם המקום שבו מידע פחות-אמין נכנס לאזור אמין-יותר — הנקודות שחייבות לאמת מחדש."} },
+      { q:{en:"An indirect prompt injection in a poisoned web page reaches the model. Which boundary failed?",he:"הזרקת prompt עקיפה בדף אינטרנט מורעל מגיעה למודל. איזה גבול נכשל?"},
+        opts:[
+          {en:"Frontend → backend",he:"Frontend → backend"},
+          {en:"External content → retrieval store → model context (ingested without sanitization)",he:"תוכן חיצוני → מאגר אחזור → הקשר מודל (נבלע ללא סניטציה)"},
+          {en:"User → login",he:"משתמש → התחברות"},
+          {en:"Model → GPU",he:"מודל → GPU"}],
+        correct:1,
+        why:{en:"Untrusted external content crossed into the model's trusted context via retrieval with no validation — LLM01 + LLM08.",he:"תוכן חיצוני לא-אמין חצה להקשר האמין של המודל דרך אחזור ללא אימות — LLM01 + LLM08."} }
+    ]
+  });
+})();
+</script>
+</body>
+</html>
