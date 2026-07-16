@@ -37,6 +37,8 @@ Design derives from the original syllabus (`../AI_Pentesting_Syllabus.html`, rea
 - Components: `.topbar`, `.hero`, `.module-hero`, `.section`/`.prose`, `.pillar`, `.mod-card`,
   `.callout.{theory,attack,defense,impact}`, `.term` (terminal code), `.lab` + `.lab-console`,
   `.quiz`/`.q`/`.opt`, `.flag-input`, `.progress-*`, `.pager`, `.sources`, `.ctf-*`, `.viz`.
+  Deep-v2 components: `.cheatsheet` (payload table), `.case`/`.case-grid` (case-study cards),
+  `.mapping`/`.mapping-wrap` (technique→OWASP→ATLAS table), `.toolbox` (tooling notes).
 - **RTL:** use logical properties (`margin-inline`, `padding-inline`, `inset-inline-*`,
   `text-align:start`). Code / payloads / flags stay `dir="ltr"` even in Hebrew.
 
@@ -90,6 +92,10 @@ API: `Progress.setComplete(id,on)`, `.isComplete`, `.captureFlag`, `.isFlagCaptu
 - **Add / audit bilingual strings** → skill `academy-i18n`.
 Deep-lesson section order: Intro → Theory → How the attack works → Visualization →
 Real-world impact → Defense → Lab → Challenge (quiz) → Sources.
+**Deep-v2** (reference: `modules/module-04.html`) layers on: technique taxonomy · payload
+cheat-sheet (`.cheatsheet`) · real-world case studies (`.case`) · defense-in-depth *with code* ·
+tooling & measurement (`.toolbox`) · technique→OWASP→ATLAS map (`.mapping`) · graded labs
+(L1→L3) · 5-question quiz. Every payload/case/tool/ATLAS-id must trace to a cited source.
 
 ## Build status (update this as modules are completed)
 - Deep &amp; done: **ALL modules 01–08 complete.** Labs `m1`(tokenizer), `m2-jailbreak`,
@@ -108,7 +114,16 @@ Real-world impact → Defense → Lab → Challenge (quiz) → Sources.
   files — no build step, the learner-facing "browser-only" constraint is preserved.
 - Generators HTML-escape interpolated data (`esc()` in `js/app.js`) and validate configs
   (`Lab.define`, `Quiz.mount`); `boot()` warns on script-load-order mistakes.
-- Remaining next passes: optional content polish.
+- **Deep-v2 done: ALL modules 01–08.** Each carries the deep-v2 layers: technique taxonomy ·
+  payload cheat-sheet (`.cheatsheet`) · real-world case studies (`.case`, source-cited) ·
+  defense-in-depth with code · tooling (`.toolbox`) · technique→OWASP→ATLAS map (`.mapping`) ·
+  5-question quiz. Each reuses its existing lab/interactive; **02 & 04 add graded L1–L3 labs**
+  (`m4-obfuscation`, `m4-multiturn`, `m2-refusal`, `m2-skeleton`).
+- Every case/tool/ATLAS-id was web-verified; `academy-module` now has an **Accuracy pass (hard gate)**.
+  ATLAS ids used are standardized (e.g. `AML.T0051` Prompt Injection, `AML.T0054` Jailbreak,
+  `AML.T0053` LLM Plugin Compromise). ATLAS's newer LLM/agent techniques are version-fluid — re-verify
+  ids against the current atlas.mitre.org / atlas-data before citing new ones.
+- Remaining next passes: advanced modules 09–11; reference/tooling layer; more CTF.
 - Reference for OWASP content: OWASP Top 10 for LLM 2025 = LLM01 Prompt Injection,
   LLM02 Sensitive Info Disclosure, LLM03 Supply Chain, LLM04 Data/Model Poisoning,
   LLM05 Improper Output Handling, LLM06 Excessive Agency, LLM07 System Prompt Leakage,

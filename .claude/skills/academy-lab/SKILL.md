@@ -12,6 +12,10 @@ deterministic, offline, rule-based simulation — never add real model or networ
 ## When to use
 - A module or CTF challenge needs a new attackable bot.
 - Adjusting difficulty, rules, hints, or flags of an existing lab.
+- Building a **graded lab set** for a deep-v2 module (L1→L3, one technique family per lab, each
+  with a distinct `NP{...}` flag) — see `m4-injection` / `m4-obfuscation` / `m4-multiturn`. For a
+  multi-turn (Crescendo-style) lab, gate the leak rule on a `ctx` flag set by an earlier "priming"
+  rule (pattern: `m4-multiturn`, `m8-chain`).
 
 ## Scenario shape (define in `js/labs.js`)
 ```js

@@ -288,6 +288,40 @@ html[dir="rtl"] .check-list li{padding:7px 26px 7px 0;}
 .viz{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin:20px 0;box-shadow:var(--shadow);}
 .viz .cap{font-size:12.5px;color:var(--muted);text-align:center;margin-top:10px;}
 
+/* ---------- DEEP-DIVE COMPONENTS (cheat-sheet · case studies · mapping · tooling) ---------- */
+/* Reusable across modules for the "deep v2" standard. All RTL-safe (logical props);
+   payloads and code are forced dir="ltr". */
+.cheatsheet{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:18px 0;box-shadow:var(--shadow);background:#fff;}
+.cheatsheet .cs-row{padding:12px 14px;border-bottom:1px solid var(--line);}
+.cheatsheet .cs-row:last-child{border-bottom:none;}
+.cheatsheet .cs-pay{display:block;font-family:Consolas,"Roboto Mono",monospace;font-size:12.5px;background:#f1e9e4;
+  border:1px solid var(--line);border-radius:6px;padding:6px 9px;color:var(--red-900);direction:ltr;text-align:left;word-break:break-word;}
+.cheatsheet .cs-meta{font-size:12.5px;color:var(--muted);margin-top:6px;}
+.cheatsheet .cs-meta b{color:var(--attack);font-weight:700;}
+
+.case-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0;}
+.case{background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--gold);
+  border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);}
+.case .case-h{font-weight:800;font-size:14px;color:var(--red-900);margin-bottom:5px;display:flex;gap:9px;align-items:baseline;flex-wrap:wrap;}
+.case .case-when{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
+.case p{font-size:13.5px;margin:4px 0;}
+.case .case-src{font-size:11.5px;color:var(--muted);margin-top:7px;}
+
+.mapping-wrap{border:1px solid var(--line);border-radius:var(--radius);overflow:auto;box-shadow:var(--shadow);margin:16px 0;}
+table.mapping{width:100%;border-collapse:collapse;font-size:13px;background:#fff;}
+table.mapping th,table.mapping td{text-align:start;padding:9px 12px;border-bottom:1px solid var(--line);}
+table.mapping thead th{background:var(--red-900);color:var(--gold-soft);font-size:11px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
+table.mapping tbody tr:last-child td{border-bottom:none;}
+table.mapping td.tech{font-weight:700;color:var(--ink);}
+table.mapping code{background:#f1e9e4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12px;font-family:Consolas,monospace;direction:ltr;display:inline-block;}
+
+.toolbox{border:1px solid var(--line);border-inline-start:4px solid var(--theory);background:var(--theory-bg);
+  border-radius:var(--radius);padding:14px 16px;margin:18px 0;box-shadow:var(--shadow);}
+.toolbox .tb-h{font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--theory);margin-bottom:8px;}
+.toolbox .tb-tool{font-weight:700;color:var(--ink);font-size:13.5px;margin:12px 0 2px;}
+.toolbox p{font-size:13.5px;margin:4px 0;}
+.toolbox .term{margin:6px 0;}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width:820px){
   .hero,.section,.module-hero,.cta,.footer{padding-inline:24px;}
