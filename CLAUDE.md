@@ -109,9 +109,10 @@ tooling & measurement (`.toolbox`) · technique→OWASP→ATLAS map (`.mapping`)
   ctf-indirect (NP{indir3ct_inj3ction_rag}), ctf-agency (role-confusion→privileged tool,
   NP{3xc3ss_ag3ncy_t00l_ab7se}), ctf-fullchain (3-step recon→code-extract→weaponize,
   NP{full_ch4in_3ngag3ment}). Scoreboard totals 4.
-- Deploy: **live** at https://arielby12.github.io/nullprompt-academy/. Pushes to `main`
-  auto-publish via `.github/workflows/deploy.yml` (GitHub Pages). CI only uploads the static
-  files — no build step, the learner-facing "browser-only" constraint is preserved.
+- Deploy: **live** at https://arielby12.github.io/nullprompt-academy/ via GitHub Pages, configured
+  to **deploy from the `main` branch root**. Pushes to `main` auto-publish — no build step, the
+  learner-facing "browser-only" constraint is preserved. (Pages source is "legacy/branch", not
+  "GitHub Actions", so no custom deploy workflow is needed.)
 - Generators HTML-escape interpolated data (`esc()` in `js/app.js`) and validate configs
   (`Lab.define`, `Quiz.mount`); `boot()` warns on script-load-order mistakes.
 - **Deep-v2 done: ALL modules 01–08.** Each carries the deep-v2 layers: technique taxonomy ·

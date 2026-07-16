@@ -45,10 +45,10 @@ python3 -m http.server 8099
 
 ## Deploy
 
-Served from **GitHub Pages** and redeployed automatically on every push to `main` via
-[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). There's no build step — the
-workflow just uploads the static files as-is. To host your own copy, fork the repo and enable
-Pages (Settings → Pages → Source: **GitHub Actions**).
+Served from **GitHub Pages**, configured to **deploy from the `main` branch root**, so every push
+to `main` auto-publishes the live site. There's no build step — the static files are served as-is.
+To host your own copy, fork the repo and enable Pages (Settings → Pages → Source: **Deploy from a
+branch → `main` / `/root`**).
 
 ## Ethics & scope
 
