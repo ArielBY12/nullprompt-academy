@@ -12,15 +12,16 @@ depth, with interactive in-browser exploit labs, per-module challenges, and a CT
 - **Accuracy over volume.** Verify factual claims against authoritative sources before writing
   (OWASP GenAI Top 10 for LLM 2025, MITRE ATLAS, primary papers). No invented CVEs, numbers,
   or "always-works" payloads. If unverifiable → phrase as general principle or omit.
-- **No fake-finished content.** Scaffold modules (4–8) are honestly labeled "outline / coming soon".
+- **No fake-finished content.** Label any incomplete work honestly ("outline / coming soon")
+  rather than presenting it as done. (All 8 modules are currently complete deep lessons.)
 - **Educational/defensive framing only.** Every attack is presented for authorized testing.
 
 ## File map
 ```
 index.html            Landing (rebranded, bilingual). Generated module grid.
 modules.html          Curriculum dashboard + progress bar (localStorage).
-modules/module-0N.html  N=1..8. Modules 1–3 deep; 4–8 scaffolds.
-ctf/ctf.html          CTF arena: 2 working challenges + scoreboard + locked upcoming.
+modules/module-0N.html  N=1..8. All deep bilingual lessons.
+ctf/ctf.html          CTF arena: 4 working challenges + scoreboard + locked upcoming.
 css/styles.css        Design system (see below). Uses logical props for RTL.
 js/i18n.js            STRINGS dict + EN/HE toggle + dir/RTL. Global: I18N.
 js/modules-data.js    SINGLE SOURCE OF TRUTH for the curriculum. Global: MODULES.
@@ -102,7 +103,12 @@ Real-world impact → Defense → Lab → Challenge (quiz) → Sources.
   ctf-indirect (NP{indir3ct_inj3ction_rag}), ctf-agency (role-confusion→privileged tool,
   NP{3xc3ss_ag3ncy_t00l_ab7se}), ctf-fullchain (3-step recon→code-extract→weaponize,
   NP{full_ch4in_3ngag3ment}). Scoreboard totals 4.
-- Remaining next passes: optional polish; GitHub Pages deploy.
+- Deploy: **live** at https://arielby12.github.io/nullprompt-academy/. Pushes to `main`
+  auto-publish via `.github/workflows/deploy.yml` (GitHub Pages). CI only uploads the static
+  files — no build step, the learner-facing "browser-only" constraint is preserved.
+- Generators HTML-escape interpolated data (`esc()` in `js/app.js`) and validate configs
+  (`Lab.define`, `Quiz.mount`); `boot()` warns on script-load-order mistakes.
+- Remaining next passes: optional content polish.
 - Reference for OWASP content: OWASP Top 10 for LLM 2025 = LLM01 Prompt Injection,
   LLM02 Sensitive Info Disclosure, LLM03 Supply Chain, LLM04 Data/Model Poisoning,
   LLM05 Improper Output Handling, LLM06 Excessive Agency, LLM07 System Prompt Leakage,

@@ -1,6 +1,6 @@
 ---
 name: academy-module
-description: Scaffold or flesh out a Nullprompt Academy module page. Use when adding a new module or converting a scaffold module (4-8) into a deep bilingual lesson with visualization, interactive lab, quiz and sources. Follows the Module 1-3 template and the conventions in the project CLAUDE.md.
+description: Add or deepen a Nullprompt Academy module page. Use when adding a brand-new module to the curriculum, or expanding a thin/partial module into a full deep bilingual lesson with visualization, interactive lab, quiz and sources. Follows the existing deep-module template and the conventions in the project CLAUDE.md.
 ---
 
 # academy-module
@@ -11,8 +11,9 @@ lab API, and file map. Mirror an existing **deep** module (`modules/module-01.ht
 `-02`, `-03`) rather than inventing structure.
 
 ## When to use
-- Turning a scaffold module (04–08) into a full deep lesson.
 - Adding a brand-new module to the curriculum.
+- Deepening a thin or partial module into a full deep lesson.
+  (All current modules 01–08 are already complete deep lessons.)
 
 ## Steps
 1. **Verify the content first (hard rule).** Before writing, confirm every factual claim

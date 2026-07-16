@@ -43,6 +43,13 @@ python3 -m http.server 8099
 # then open http://localhost:8099
 ```
 
+## Deploy
+
+Served from **GitHub Pages** and redeployed automatically on every push to `main` via
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). There's no build step — the
+workflow just uploads the static files as-is. To host your own copy, fork the repo and enable
+Pages (Settings → Pages → Source: **GitHub Actions**).
+
 ## Ethics & scope
 
 For **authorized security testing and education only**. Every lab is a self-contained browser

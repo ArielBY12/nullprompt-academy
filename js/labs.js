@@ -29,7 +29,14 @@
 
   const Lab = {
     registry,
-    define(scn) { registry[scn.id] = scn; return this; },
+    define(scn) {
+      if (!scn || !scn.id || !scn.secretFlag || !Array.isArray(scn.rules)) {
+        console.warn("[Lab] invalid scenario — needs { id, secretFlag, rules:[] }:", scn);
+        return this;
+      }
+      registry[scn.id] = scn;
+      return this;
+    },
     get(id) { return registry[id]; },
 
     /* Run one turn of the simulated model. Returns {reply, leak, flag}. */
@@ -50,8 +57,16 @@
     /* Build the interactive console inside `el` for scenario `id`. */
     mount(el, id) {
       const scn = registry[id];
-      if (!el || !scn) { if (el) el.innerHTML = "<em>Lab not found: " + id + "</em>"; return; }
-      const ctx = { document: "", turns: 0, exploited: false };
+      if (!el || !scn) {
+        if (el) {
+          // textContent (not innerHTML) so an untrusted id can't inject markup
+          const em = document.createElement("em");
+          em.textContent = "Lab not found: " + id;
+          el.replaceChildren(em);
+        }
+        return;
+      }
+      const ctx = { document: "", exploited: false };
 
       const solved = global.Progress && Progress.isFlagCaptured(scn.secretFlag);
 
@@ -73,7 +88,7 @@
           </div>
           ${scn.examples && scn.examples.length ? `<div class="lab-tools" data-lab-examples></div>` : ``}
           ${scn.text && scn.text.hints ? `<details class="hint-box"><summary data-lab-hintlabel></summary><div data-lab-hints></div></details>` : ``}
-          <p class="lab-desc" style="margin-top:12px">${(global.I18N ? "" : "")}<span data-i18n="ui.simNote"></span></p>
+          <p class="lab-desc" style="margin-top:12px"><span data-i18n="ui.simNote"></span></p>
           <div class="flag-input">
             <input type="text" data-lab-flag placeholder="NP{...}" aria-label="Submit captured flag">
             <button type="button" class="btn gold" data-lab-flagbtn></button>
@@ -101,7 +116,6 @@
         if (ctxEl) ctx.document = ctxEl.value;
         push("user", val);
         inEl.value = "";
-        ctx.turns++;
         const r = Lab.respond(scn, val, ctx);
         push("bot", r.reply);
         if (r.leak && r.flag && !ctx.exploited) {
@@ -172,7 +186,10 @@
       push("bot", scn.text ? T(scn.text.greeting) : "Hello! How can I help?");
       if (ctxEl && scn.defaultContext) ctxEl.value = T(scn.defaultContext);
       renderText();
-      document.addEventListener("np:lang", renderText);
+      // idempotent: drop a previous handler if this element is re-mounted
+      if (el._npLabLang) document.removeEventListener("np:lang", el._npLabLang);
+      el._npLabLang = renderText;
+      document.addEventListener("np:lang", el._npLabLang);
 
       if (solved) {
         flagStatus.textContent = I18N.t("ui.solved") + " ✓";

@@ -10,6 +10,12 @@
    ========================================================================== */
 (function (global) {
 
+  /* HTML-escape a value before it is interpolated into an innerHTML string.
+     The data (MODULES, quiz configs) is static today, but a site that teaches
+     Improper Output Handling (LLM05) should model the fix: encode at the sink. */
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
   /* ------------------------------ Progress ------------------------------ */
   const Progress = {
     _read(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch (e) { return def; } },
@@ -49,7 +55,7 @@
     /* base = relative prefix to site root ("" for root, "../" for /modules) */
     buildTopbar(base, active) {
       const link = (href, key, id) =>
-        `<a href="${base}${href}" data-i18n="${key}" ${active === id ? 'class="active"' : ''}></a>`;
+        `<a href="${esc(base)}${esc(href)}" data-i18n="${esc(key)}" ${active === id ? 'class="active"' : ''}></a>`;
       return `
         <div class="brand"><span class="dot"></span><span data-i18n="brand"></span></div>
         <nav aria-label="Primary">
@@ -82,11 +88,11 @@
           : (m.status === "deep"
             ? `<span class="tag deep" data-i18n="ui.deep"></span>`
             : `<span class="tag scaffold" data-i18n="ui.scaffold"></span>`);
-        return `<a class="mod-card" href="${base}${m.file}">
-            <span class="dur">${m.dur[lang]}</span>
+        return `<a class="mod-card" href="${esc(base)}${esc(m.file)}">
+            <span class="dur">${esc(m.dur[lang])}</span>
             <div class="mnum">${String(m.id).padStart(2, "0")}</div>
-            <h3>${m.title[lang]}</h3>
-            <p>${m.desc[lang]}</p>
+            <h3>${esc(m.title[lang])}</h3>
+            <p>${esc(m.desc[lang])}</p>
             <div class="tags">${statusTag}</div>
           </a>`;
       }).join("");
@@ -101,11 +107,11 @@
       const lang = I18N.lang;
       let html = "";
       html += prev
-        ? `<a class="prev" href="${base}${prev.file}"><div class="dir">← <span data-i18n="ui.prev"></span></div><div class="ttl">${prev.title[lang]}</div></a>`
-        : `<a class="prev" href="${base}index.html"><div class="dir">← <span data-i18n="nav.home"></span></div><div class="ttl">${I18N.t("nav.home")}</div></a>`;
+        ? `<a class="prev" href="${esc(base)}${esc(prev.file)}"><div class="dir">← <span data-i18n="ui.prev"></span></div><div class="ttl">${esc(prev.title[lang])}</div></a>`
+        : `<a class="prev" href="${esc(base)}index.html"><div class="dir">← <span data-i18n="nav.home"></span></div><div class="ttl">${esc(I18N.t("nav.home"))}</div></a>`;
       html += next
-        ? `<a class="next" href="${base}${next.file}"><div class="dir"><span data-i18n="ui.next"></span> →</div><div class="ttl">${next.title[lang]}</div></a>`
-        : `<a class="next" href="${base}ctf/ctf.html"><div class="dir"><span data-i18n="nav.ctf"></span> →</div><div class="ttl">${I18N.t("nav.ctf")}</div></a>`;
+        ? `<a class="next" href="${esc(base)}${esc(next.file)}"><div class="dir"><span data-i18n="ui.next"></span> →</div><div class="ttl">${esc(next.title[lang])}</div></a>`
+        : `<a class="next" href="${esc(base)}ctf/ctf.html"><div class="dir"><span data-i18n="nav.ctf"></span> →</div><div class="ttl">${esc(I18N.t("nav.ctf"))}</div></a>`;
       el.innerHTML = html;
     },
 
@@ -122,7 +128,11 @@
         });
       };
       draw();
-      document.addEventListener("np:lang", draw);
+      // idempotent: if this element is re-mounted, drop its old np:lang handler
+      // first so handlers don't stack (each would target replaced DOM).
+      if (el._npMcLang) document.removeEventListener("np:lang", el._npMcLang);
+      el._npMcLang = draw;
+      document.addEventListener("np:lang", el._npMcLang);
     }
   };
 
@@ -131,6 +141,10 @@
   const Quiz = {
     mount(el, config) {
       if (!el || !config) return;
+      if (!config.id || !Array.isArray(config.questions)) {
+        console.warn("[Quiz] invalid config — needs { id, questions:[] }:", config);
+        return;
+      }
       const state = { answered: false };
       function render() {
         const lang = I18N.lang;
@@ -140,10 +154,10 @@
            <p class="lab-desc">${lang === "he" ? "בחר את התשובה הנכונה בכל שאלה, ואז בדוק." : "Pick the right answer for each question, then check."}</p>` +
           config.questions.map((q, qi) =>
             `<div class="q" data-qi="${qi}">
-               <div class="qtext">${qi + 1}. ${q.q[lang]}</div>
+               <div class="qtext">${qi + 1}. ${esc(q.q[lang])}</div>
                ${q.opts.map((o, oi) =>
                  `<label class="opt" data-oi="${oi}">
-                    <input type="radio" name="q${config.id}_${qi}" value="${oi}">${o[lang]}
+                    <input type="radio" name="q${config.id}_${qi}" value="${oi}">${esc(o[lang])}
                   </label>`).join("")}
                <div class="why lab-desc" style="display:none;margin-top:6px"></div>
              </div>`).join("") +
@@ -181,12 +195,18 @@
         state.answered = true;
       }
       render();
-      document.addEventListener("np:lang", () => { if (!state.answered) render(); });
+      if (el._npQuizLang) document.removeEventListener("np:lang", el._npQuizLang);
+      el._npQuizLang = () => { if (!state.answered) render(); };
+      document.addEventListener("np:lang", el._npQuizLang);
     }
   };
 
   /* ----------------------------- Bootstrap ------------------------------ */
   function boot() {
+    if (!global.I18N || !global.MODULES) {
+      console.warn("[Nullprompt] app.js booted without I18N/MODULES — check that " +
+        "i18n.js and modules-data.js load before app.js.");
+    }
     NP.mountChrome();
     if (global.I18N) I18N.init();
     // generators wired up by each page via data-* hooks
@@ -200,7 +220,7 @@
         const lang = I18N.lang;
         el.innerHTML = (global.MODULES || []).map(m =>
           `<div class="pillar"><div class="ico">${String(m.id).padStart(2, "0")}</div>` +
-          `<div class="t">${m.title[lang]}</div></div>`).join("");
+          `<div class="t">${esc(m.title[lang])}</div></div>`).join("");
       };
       draw();
       document.addEventListener("np:lang", draw);
