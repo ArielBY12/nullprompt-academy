@@ -68,7 +68,7 @@
       he: "האקדמיה לוקחת אותך ממבנה מודלי השפה הגדולים ועד מתודולוגיית בדיקות חדירה מקצועית ומלאה ליישומים וסוכנים מבוססי-AI. כל מודול משלב תיאוריה עם וקטורי תקיפה, השפעה בעולם האמיתי, ומעבדה אינטראקטיבית שניתן ממש לתקוף בדפדפן."
     },
     "home.curriculumEyebrow": { en: "Curriculum", he: "תוכנית הלימודים" },
-    "home.curriculumTitle": { en: "8 modules, start to finish", he: "8 מודולים, מהתחלה ועד הסוף" },
+    "home.curriculumTitle": { en: "11 modules, start to finish", he: "11 מודולים, מהתחלה ועד הסוף" },
     "home.audienceEyebrow": { en: "Who it's for", he: "למי זה מיועד" },
     "home.audienceTitle": { en: "Built for anyone who wants in", he: "בנוי לכל מי שרוצה להיכנס לתחום" },
     "home.aud1": { en: "Self-taught learners with no budget for paid courses", he: "לומדים עצמאיים ללא תקציב לקורסים בתשלום" },
@@ -92,7 +92,7 @@
 
     /* ---- modules dashboard ---- */
     "modules.title": { en: "Curriculum &amp; progress", he: "תוכנית לימודים והתקדמות" },
-    "modules.lead": { en: "Eight modules take you from foundations to a full engagement. Your progress is saved locally in this browser.", he: "שמונה מודולים לוקחים אותך מהיסודות ועד בדיקה מלאה. ההתקדמות נשמרת מקומית בדפדפן." },
+    "modules.lead": { en: "Eleven modules take you from foundations through a full engagement to advanced attacks. Your progress is saved locally in this browser.", he: "אחד-עשר מודולים לוקחים אותך מהיסודות, דרך בדיקה מלאה, עד תקיפות מתקדמות. ההתקדמות נשמרת מקומית בדפדפן." },
     "modules.progressLabel": { en: "Overall progress", he: "התקדמות כללית" },
 
     /* ---- disclaimer / footer ---- */
