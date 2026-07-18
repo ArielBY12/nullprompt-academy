@@ -229,6 +229,7 @@
       const cid = parseInt(el.getAttribute("data-current"), 10);
       const base = el.getAttribute("data-base") || "";
       NP.renderPager(el, cid, base);
+      I18N.apply(el); // fill the prev/next labels on first load, not only on toggle
       document.addEventListener("np:lang", () => { NP.renderPager(el, cid, base); I18N.apply(el); });
     });
     document.querySelectorAll("[data-mark-complete]").forEach(el =>

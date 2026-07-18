@@ -12,11 +12,13 @@ practice real attack techniques offline.
 
 ## What's inside
 
-- **8 in-depth modules** covering the full AI/LLM pentesting syllabus, from model internals to a
-  full engagement methodology.
-- **10 interactive labs** — attackable simulated bots where you actually perform prompt injection,
+- **11 in-depth modules** — an 8-module core syllabus (model internals → engagement methodology)
+  plus a 3-module advanced track (multimodal & adversarial inputs, model/training-data extraction,
+  advanced agents & MCP security).
+- **13 interactive labs** — attackable simulated bots where you actually perform prompt injection,
   system-prompt leakage, jailbreaks, indirect injection, tool hijacking (excessive agency),
-  improper output handling (XSS), and attack-surface mapping. Capture the `NP{...}` flags.
+  improper output handling (XSS), attack-surface mapping, image-based injection, training-data
+  extraction, and MCP tool poisoning. Capture the `NP{...}` flags.
 - **4-challenge CTF arena** — unguided, cross-module challenges up to a full three-step chained exploit.
 - **Full OWASP Top 10 for LLM (2025)** coverage, mapped to every technique.
 - **Bilingual EN/HE** with proper right-to-left support, and local progress tracking.
@@ -33,6 +35,9 @@ practice real attack techniques offline.
 | 06 | AI Agents & Organizational Risks | Hijack an agent's tools |
 | 07 | OWASP Top 10 for LLM | Risk board + XSS lab + classifier |
 | 08 | LLM Pentesting Methodology | Capstone: full chained exploit |
+| 09 | Multimodal & Adversarial Inputs | Image-based (OCR) injection |
+| 10 | Model & Training-Data Extraction | Training-data extraction |
+| 11 | Advanced Agents & MCP Security | MCP tool poisoning |
 
 ## Run locally
 

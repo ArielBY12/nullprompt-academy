@@ -1,8 +1,9 @@
 # Nullprompt Academy — project guide
 
 A **free, self-teaching, bilingual (EN/HE) academy for AI &amp; LLM penetration testing.**
-Audience: people who can't afford paid courses. It teaches the full 8-module syllabus in
-depth, with interactive in-browser exploit labs, per-module challenges, and a CTF arena.
+Audience: people who can't afford paid courses. It teaches a full 8-module core
+syllabus plus a 3-module advanced track (11 modules total), with interactive in-browser exploit
+labs, per-module challenges, and a CTF arena.
 
 ## Hard constraints
 - **Static site, no build step.** Plain HTML/CSS/JS only, hostable free on GitHub Pages.
@@ -20,7 +21,7 @@ depth, with interactive in-browser exploit labs, per-module challenges, and a CT
 ```
 index.html            Landing (rebranded, bilingual). Generated module grid.
 modules.html          Curriculum dashboard + progress bar (localStorage).
-modules/module-0N.html  N=1..8. All deep bilingual lessons.
+modules/module-NN.html  01–11. All deep bilingual lessons (09–11 = advanced track).
 ctf/ctf.html          CTF arena: 4 working challenges + scoreboard + locked upcoming.
 css/styles.css        Design system (see below). Uses logical props for RTL.
 js/i18n.js            STRINGS dict + EN/HE toggle + dir/RTL. Global: I18N.
@@ -115,16 +116,18 @@ tooling & measurement (`.toolbox`) · technique→OWASP→ATLAS map (`.mapping`)
   "GitHub Actions", so no custom deploy workflow is needed.)
 - Generators HTML-escape interpolated data (`esc()` in `js/app.js`) and validate configs
   (`Lab.define`, `Quiz.mount`); `boot()` warns on script-load-order mistakes.
-- **Deep-v2 done: ALL modules 01–08.** Each carries the deep-v2 layers: technique taxonomy ·
+- **Deep-v2 done: ALL modules 01–11** (8 core + advanced track 09–11). Each carries the deep-v2 layers: technique taxonomy ·
   payload cheat-sheet (`.cheatsheet`) · real-world case studies (`.case`, source-cited) ·
   defense-in-depth with code · tooling (`.toolbox`) · technique→OWASP→ATLAS map (`.mapping`) ·
   5-question quiz. Each reuses its existing lab/interactive; **02 & 04 add graded L1–L3 labs**
-  (`m4-obfuscation`, `m4-multiturn`, `m2-refusal`, `m2-skeleton`).
+  (`m4-obfuscation`, `m4-multiturn`, `m2-refusal`, `m2-skeleton`). Advanced modules 09–11 add labs
+  `m9-multimodal` (image/OCR injection), `m10-extract` (training-data extraction), `m11-mcp` (MCP
+  tool poisoning).
 - Every case/tool/ATLAS-id was web-verified; `academy-module` now has an **Accuracy pass (hard gate)**.
   ATLAS ids used are standardized (e.g. `AML.T0051` Prompt Injection, `AML.T0054` Jailbreak,
   `AML.T0053` LLM Plugin Compromise). ATLAS's newer LLM/agent techniques are version-fluid — re-verify
   ids against the current atlas.mitre.org / atlas-data before citing new ones.
-- Remaining next passes: advanced modules 09–11; reference/tooling layer; more CTF.
+- Remaining next passes: reference/tooling layer; more CTF.
 - Reference for OWASP content: OWASP Top 10 for LLM 2025 = LLM01 Prompt Injection,
   LLM02 Sensitive Info Disclosure, LLM03 Supply Chain, LLM04 Data/Model Poisoning,
   LLM05 Improper Output Handling, LLM06 Excessive Agency, LLM07 System Prompt Leakage,

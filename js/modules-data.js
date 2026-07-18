@@ -108,5 +108,44 @@ window.MODULES = [
       en: ["Recon &amp; system mapping", "Attack-vector identification &amp; test planning", "Chained exploitation &amp; payload crafting", "Reporting &amp; remediation guidance"],
       he: ["Recon ומיפוי מערכת", "זיהוי וקטורי תקיפה ותכנון בדיקה", "ניצול משורשר ובניית payloads", "דיווח והנחיות תיקון"]
     }
+  },
+  {
+    id: 9, file: "modules/module-09.html", status: "deep",
+    title: { en: "Multimodal &amp; Adversarial Inputs", he: "קלט מולטימודאלי ו-adversarial" },
+    dur:   { en: "Advanced", he: "מתקדם" },
+    desc: {
+      en: "Attacks that enter through images, audio and adversarial perturbations — text-in-image injection, adversarial suffixes, and cross-modal jailbreaks.",
+      he: "תקיפות שנכנסות דרך תמונות, אודיו והפרעות adversarial — הזרקת טקסט-בתמונה, adversarial suffixes, ו-jailbreaks חוצי-מודאליות."
+    },
+    topics: {
+      en: ["Multimodal attack surface (image / audio)", "Image-based &amp; typographic prompt injection", "Adversarial examples &amp; suffixes (GCG)", "Cross-modal jailbreaks"],
+      he: ["משטח תקיפה מולטימודאלי (תמונה / אודיו)", "הזרקת prompt מבוססת-תמונה וטיפוגרפית", "דוגמאות ו-suffixes של adversarial (GCG)", "Jailbreaks חוצי-מודאליות"]
+    }
+  },
+  {
+    id: 10, file: "modules/module-10.html", status: "deep",
+    title: { en: "Model &amp; Training-Data Extraction", he: "חילוץ מודל ונתוני אימון" },
+    dur:   { en: "Advanced", he: "מתקדם" },
+    desc: {
+      en: "Privacy attacks against the model itself — extracting memorized training data, stealing model behavior, and membership inference.",
+      he: "תקיפות פרטיות נגד המודל עצמו — חילוץ נתוני אימון משוננים, גניבת התנהגות המודל, ו-membership inference."
+    },
+    topics: {
+      en: ["Training-data extraction &amp; memorization", "Model extraction / stealing", "Membership inference", "PII leakage &amp; model inversion"],
+      he: ["חילוץ נתוני אימון ושינון", "חילוץ / גניבת מודל", "Membership inference", "דליפת PII ו-model inversion"]
+    }
+  },
+  {
+    id: 11, file: "modules/module-11.html", status: "deep",
+    title: { en: "Advanced Agents &amp; MCP Security", he: "סוכנים מתקדמים ואבטחת MCP" },
+    dur:   { en: "Advanced", he: "מתקדם" },
+    desc: {
+      en: "Deep agent &amp; Model Context Protocol (MCP) security — tool poisoning, cross-server shadowing, confused-deputy and multi-agent trust.",
+      he: "אבטחת סוכנים ו-Model Context Protocol (MCP) לעומק — הרעלת כלים, הצללה בין-שרתית, confused-deputy ואמון רב-סוכני."
+    },
+    topics: {
+      en: ["MCP architecture &amp; threat model", "Tool poisoning &amp; line-jumping", "Cross-server shadowing &amp; rug-pulls", "Confused deputy &amp; multi-agent trust"],
+      he: ["ארכיטקטורת MCP ומודל איום", "הרעלת כלים ו-line-jumping", "הצללה בין-שרתית ו-rug-pulls", "Confused deputy ואמון רב-סוכני"]
+    }
   }
 ];
