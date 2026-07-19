@@ -146,6 +146,17 @@
         return;
       }
       const state = { answered: false };
+      // Stable, shuffled display order per question so the correct answer's POSITION isn't a
+      // tell (93% used to sit at index 1). value/data-oi keep the ORIGINAL index, so scoring is
+      // unchanged; computed once here, not on every language re-render.
+      const order = config.questions.map(q => {
+        const idx = (q.opts || []).map((_, i) => i);
+        for (let i = idx.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [idx[i], idx[j]] = [idx[j], idx[i]];
+        }
+        return idx;
+      });
       function render() {
         const lang = I18N.lang;
         el.classList.add("quiz");
@@ -155,10 +166,10 @@
           config.questions.map((q, qi) =>
             `<div class="q" data-qi="${qi}">
                <div class="qtext">${qi + 1}. ${esc(q.q[lang])}</div>
-               ${q.opts.map((o, oi) =>
+               ${order[qi].map(oi => { const o = q.opts[oi]; return (
                  `<label class="opt" data-oi="${oi}">
                     <input type="radio" name="q${config.id}_${qi}" value="${oi}">${esc(o[lang])}
-                  </label>`).join("")}
+                  </label>`); }).join("")}
                <div class="why lab-desc" style="display:none;margin-top:6px"></div>
              </div>`).join("") +
           `<button type="button" class="btn" data-check>${I18N.t("ui.checkAnswers")}</button>
